@@ -1,4 +1,5 @@
 # Tasker Calendar Plugin
+[![Android CI Build APK Status](https://img.shields.io/github/actions/workflow/status/YOUR_USERNAME/YOUR_REPOSITORY/build-apk.yml?branch=main&label=Build)](https://github.com/YOUR_USERNAME/YOUR_REPOSITORY/actions/workflows/build-apk.yml)
 
 A plugin for Tasker to read calendar events and create new ones.
 
@@ -10,6 +11,12 @@ A plugin for Tasker to read calendar events and create new ones.
 *   **Tasker Variable Support**: Use Tasker variables in text fields for dynamic event creation.
 *   **Event Data Export**: Exposes details of fetched events (title, location, start time, etc.) as Tasker variables.
 *   **Error Reporting**: Provides an error variable (`%cal_error`) if calendar queries fail.
+
+## Continuous Integration
+
+This project uses GitHub Actions to automatically build the Android APK upon every push or pull request to the `main` branch. You can check the build status using the badge at the top of this README.
+
+Successfully built APKs for the `main` branch are available as artifacts in the GitHub Actions run summary. You will need to be logged into GitHub to download these artifacts.
 
 ## Setup and Installation
 
