@@ -18,7 +18,6 @@ This project uses GitHub Actions to build the Android APK. Builds are automatica
 
 Successfully built APKs for the `main` branch (and manual runs) are available as artifacts in the GitHub Actions run summary. You will need to be logged into GitHub to download these artifacts.
 
-
 ## Setup and Installation
 
 1.  **Installation**: Install the Tasker Calendar Plugin APK on your Android device like any other application.
