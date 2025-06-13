@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_CALENDAR" />
+    <uses-permission android:name="android.permission.WRITE_CALENDAR" />
+
+    <application
+        android:allowBackup="true"
+        android:dataExtractionRules="@xml/data_extraction_rules"
+        android:fullBackupContent="@xml/backup_rules"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.TaskerCalendarPlugin"
+        tools:targetApi="31">
+
+        <!-- Tasker Plugin Version Metadata -->
+        <meta-data
+            android:name="com.twofortyfouram.locale.api.BONUS_STRING_PLUGIN_VERSION_CODE"
+            android:value="1" />
+
+        <!-- Plugin Configuration Activity -->
+        <activity
+            android:name=".ui.PluginEditActivity"
+            android:label="Calendar Plugin Config"
+            android:icon="@android:drawable/ic_menu_preferences"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.api.intent.action.EDIT_SETTING" />
+                <!-- Use ACTION_EDIT_CONDITION if it's a Condition type plugin -->
+                <!-- <action android:name="com.twofortyfouram.locale.api.intent.action.EDIT_CONDITION" /> -->
+            </intent-filter>
+        </activity>
+
+        <!-- Plugin Query BroadcastReceiver (for Conditions/States) -->
+        <receiver
+            android:name=".receiver.PluginQueryReceiver"
+            android:exported="true"
+            android:process=":background"> <!-- Run in a separate process if recommended by Tasker docs -->
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.api.intent.action.QUERY_CONDITION" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Plugin Fire BroadcastReceiver (for Actions/Settings) -->
+        <receiver
+            android:name=".receiver.PluginFireReceiver"
+            android:exported="true"
+            android:process=":background"> <!-- Run in a separate process if recommended by Tasker docs -->
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.api.intent.action.FIRE_SETTING" />
+            </intent-filter>
+        </receiver>
+
+        <!-- Placeholder for a regular app launcher activity, if you also want it to be a standalone app -->
+        <!-- <activity
+            android:name=".ui.MainActivity"  -->
+            <!-- Replace .ui.MainActivity with your actual main launcher activity if you have one -->
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity> -->
+    </application>
+
+</manifest>

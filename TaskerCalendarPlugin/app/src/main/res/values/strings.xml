@@ -1,0 +1,59 @@
+<resources>
+    <string name="app_name">Tasker Calendar Plugin</string>
+
+    <!-- PluginEditActivity UI Strings -->
+    <string name="action_type_prompt">Choose an action</string>
+    <string name="action_get_events_label">Get Upcoming Events</string>
+    <string name="action_add_event_label">Add New Event</string>
+
+    <string-array name="action_types_array">
+        <item>@string/action_get_events_label</item>
+        <item>@string/action_add_event_label</item>
+    </string-array>
+
+    <string name="label_get_events_config">Get Events Configuration</string>
+    <string name="hint_event_count">Number of events (e.g., 5)</string>
+    <string name="hint_days_ahead">Days ahead (e.g., 7)</string>
+    <string name="label_or_separator">OR</string>
+
+    <string name="label_add_event_config">Add Event Configuration</string>
+    <string name="hint_event_title">Event Title*</string>
+    <string name="hint_event_description">Description</string>
+    <string name="hint_event_location">Location</string>
+    <string name="hint_event_start_offset">Start time (minutes from now, e.g., 60)</string>
+    <string name="hint_event_duration">Duration (minutes, e.g., 30)</string>
+    <string name="placeholder_date_time">YYYY-MM-DD HH:MM (Future)</string>
+
+    <string name="button_save_config">Save Configuration</string>
+    <string name="button_save_legacy_config">Save Legacy Config (Re-configure Recommended)</string>
+    <string name="edit_text_legacy_config_hint">Enter legacy configuration data</string>
+
+    <!-- Permission Handling -->
+    <string name="permissions_required_to_configure">Calendar permissions are required to configure this plugin. Please grant permissions.</string>
+    <string name="permissions_not_granted_save_disabled">Permissions not granted. Saving is disabled. Please grant permissions first.</string>
+    <string name="permissions_denied_functionality_limited">Permissions denied. Plugin functionality will be limited or unavailable.</string>
+    <string name="permission_rationale_title">Calendar Permission Needed</string>
+    <string name="permission_rationale_message">This plugin needs access to your calendar to read and add events. Please grant these permissions in app settings.</string>
+    <string name="permission_rationale_settings">Open Settings</string>
+    <string name="permission_rationale_cancel">Cancel</string>
+    <string name="permission_denied_title">Permission Denied</string>
+    <string name="permission_denied_settings_message">Calendar permissions were permanently denied. To use this feature, please enable them in app settings.</string>
+
+
+    <!-- Input Validation Errors -->
+    <string name="error_field_required">This field is required.</string>
+    <string name="error_field_required_one_of_two">Specify this or the other field.</string>
+    <string name="error_get_events_config_required">For "Get Events", please specify either Number of events or Days ahead.</string>
+    <string name="error_add_event_title_required">For "Add Event", the Title is required.</string>
+    <string name="error_invalid_number_format">Please enter a valid number.</string>
+    <string name="error_invalid_action">Invalid action selected. Cannot save.</string>
+    <string name="error_no_config_to_save">No configuration to save.</string>
+
+    <!-- Blurbs for Tasker -->
+    <string name="blurb_get_events_prefix">Get Events: </string>
+    <string name="blurb_get_events_count_suffix"> events</string>
+    <string name="blurb_get_events_days_suffix"> days ahead</string>
+    <string name="blurb_add_event_prefix">Add Event: </string>
+    <string name="blurb_legacy_prefix">Legacy Config: </string>
+
+</resources>
