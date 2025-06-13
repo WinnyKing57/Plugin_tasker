@@ -5,6 +5,7 @@ on:
     branches: [ main ] # Assuming 'main' is the default branch
   pull_request:
     branches: [ main ] # Assuming 'main' is the default branch
+    
   workflow_dispatch: {} # Allows manual triggering from the Actions tab
 
 jobs:
