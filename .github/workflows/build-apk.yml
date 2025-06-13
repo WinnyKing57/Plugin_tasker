@@ -40,7 +40,7 @@ jobs:
         working-directory: ./TaskerCalendarPlugin # Sets context for this step
 
       - name: Upload Debug APK
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4 # Updated version
         with:
           name: app-debug # Name of the artifact bundle
           path: TaskerCalendarPlugin/app/build/outputs/apk/debug/app-debug.apk # Adjusted path
