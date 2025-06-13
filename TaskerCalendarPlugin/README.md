@@ -14,9 +14,10 @@ A plugin for Tasker to read calendar events and create new ones.
 
 ## Continuous Integration
 
-This project uses GitHub Actions to automatically build the Android APK upon every push or pull request to the `main` branch. You can check the build status using the badge at the top of this README.
+This project uses GitHub Actions to build the Android APK. Builds are automatically triggered upon every push or pull request to the `main` branch, and can also be initiated manually from the repository's "Actions" tab (useful for generating builds on demand). You can check the build status using the badge at the top of this README.
 
-Successfully built APKs for the `main` branch are available as artifacts in the GitHub Actions run summary. You will need to be logged into GitHub to download these artifacts.
+Successfully built APKs for the `main` branch (and manual runs) are available as artifacts in the GitHub Actions run summary. You will need to be logged into GitHub to download these artifacts.
+
 
 ## Setup and Installation
 
