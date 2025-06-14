@@ -14,36 +14,36 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: List files in workspace
-        run: ls -R
+      - name: Set up Gradle (for wrapper generation)
+        uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '7.5' # Version compatible with AGP used in project (e.g., 7.x for AGP 7.x)
+
+      - name: Generate Gradle Wrapper
+        run: gradle wrapper --gradle-version 7.5 # Ensures wrapper uses this version
+        working-directory: ./TaskerCalendarPlugin # Assumes project is in this subfolder
+
+      - name: List files in TaskerCalendarPlugin # Moved and updated
+        run: ls -R TaskerCalendarPlugin
 
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: 'temurin'
-          cache: 'gradle' # Cache Gradle dependencies based on setup-java documentation
-
-      # Optional: Explicit Gradle Caching (setup-java with cache: 'gradle' might handle this)
-      # - name: Cache Gradle packages
-      #   uses: actions/cache@v3
-      #   with:
-      #     path: |
-      #       ~/.gradle/caches
-      #       ~/.gradle/wrapper
-      #     key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-      #     restore-keys: |
-      #       ${{ runner.os }}-gradle-
+          cache: 'gradle' # This will cache based on wrapper files if present
 
       - name: Grant execute permission for gradlew
-        run: chmod +x ./gradlew # Reverted path
+        run: chmod +x TaskerCalendarPlugin/gradlew # Path to gradlew within the project
 
       - name: Build with Gradle (Debug APK)
-        run: ./gradlew assembleDebug # Reverted, no working-directory
+        run: ./gradlew assembleDebug # gradlew is in TaskerCalendarPlugin
+        working-directory: ./TaskerCalendarPlugin # Execute from project root
 
       - name: Upload Debug APK
         uses: actions/upload-artifact@v4
         with:
           name: app-debug # Name of the artifact bundle
-          path: app/build/outputs/apk/debug/app-debug.apk # Reverted path
+          # Path is relative to the GITHUB_WORKSPACE root
+          path: TaskerCalendarPlugin/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error # Optional: fail the step if the APK is not found
