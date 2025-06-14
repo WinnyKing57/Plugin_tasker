@@ -34,7 +34,7 @@ jobs:
           cache: 'gradle' # This will cache based on wrapper files if present
 
       - name: Grant execute permission for gradlew
-        run: chmod +x TaskerCalendarPlugin/gradlew # Path to gradlew within the project
+        run: chmod +x TaskerCalendarPlugin/gradlew # Ensured path
 
       - name: Build with Gradle (Debug APK)
         run: ./gradlew assembleDebug # gradlew is in TaskerCalendarPlugin
