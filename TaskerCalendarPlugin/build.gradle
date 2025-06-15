@@ -1,5 +1,7 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
+    ext.kotlin_version = '1.8.20' // Define Kotlin version
+
     repositories { // Re-added for buildscript classpath resolution
         google()
         mavenCentral()
@@ -10,6 +12,8 @@ buildscript {
         // This classpath is for the project-level build.gradle.
         // The actual plugin application (id 'com.android.application') happens in the module-level build.gradle.
         classpath 'com.android.tools.build:gradle:7.4.2'
+        // Kotlin Gradle Plugin
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
 
