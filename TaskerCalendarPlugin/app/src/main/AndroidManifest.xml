@@ -55,16 +55,6 @@
             </intent-filter>
         </receiver>
 
-        <!-- Placeholder for a regular app launcher activity, if you also want it to be a standalone app -->
-        <!-- <activity
-            android:name=".ui.MainActivity"  -->
-            <!-- Replace .ui.MainActivity with your actual main launcher activity if you have one -->
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity> -->
     </application>
 
 </manifest>
