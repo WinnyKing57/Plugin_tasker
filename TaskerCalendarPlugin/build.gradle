@@ -1,6 +1,9 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 buildscript {
-    // Repositories for buildscript are typically defined in settings.gradle under pluginManagement
+    repositories { // Re-added for buildscript classpath resolution
+        google()
+        mavenCentral()
+    }
     dependencies {
         // Android Gradle Plugin (AGP)
         // Version 7.4.2 is compatible with Gradle 7.5 and compileSdk 33
