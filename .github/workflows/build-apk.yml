@@ -37,7 +37,7 @@ jobs:
         run: chmod +x TaskerCalendarPlugin/gradlew # Ensured path
 
       - name: Build with Gradle (Debug APK)
-        run: ./gradlew assembleDebug # gradlew is in TaskerCalendarPlugin
+        run: ./gradlew assembleDebug --stacktrace --info # Added debug options
         working-directory: ./TaskerCalendarPlugin # Execute from project root
 
       - name: Upload Debug APK
