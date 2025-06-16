@@ -15,14 +15,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskerCalendarPlugin"
-        tools:targetApi="31">
-
-        <service
-            android:name="*"
-            tools:node="merge"
-            tools:remove="android:foregroundServiceType"
-            tools:replace="android:foregroundServiceType"
-            android:foregroundServiceType="location" />
+        tools:targetApi="31"
+        tools:remove="android:foregroundServiceType">
 
         <!-- Tasker Plugin Version Metadata -->
         <meta-data
