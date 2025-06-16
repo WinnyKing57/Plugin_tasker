@@ -40,6 +40,7 @@ dependencies {
     // Placeholder for Tasker Plugin SDK - this will need to be replaced with the actual SDK
     // implementation files('libs/tasker-plugin-sdk.jar') // Example if it's a local .jar
     // implementation 'net.dinglisch.android:taskerpluginlibrary:0.2.5' // Example if it's a remote dependency like the common one on Maven Central
+    implementation 'net.dinglisch.android.tasker:taskerpluginlibrary:0.0.4'
     // To use a local .jar, you would typically:
     // 1. Create an 'app/libs' directory if it doesn't exist.
     // 2. Copy your 'tasker-plugin-library.jar' into 'app/libs'.

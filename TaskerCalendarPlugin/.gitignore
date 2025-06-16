@@ -1,0 +1,18 @@
+# Generated files and directories
+/build/
+*/build/
+*.apk
+*.aab
+*.ap_
+
+# Local configuration files
+local.properties
+
+# Gradle cache files
+.gradle/
+
+# IDE files (optional but good practice)
+*.iml
+/.idea/
+captures/
+.cxx/
