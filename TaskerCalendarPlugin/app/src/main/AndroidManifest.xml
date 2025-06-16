@@ -17,6 +17,13 @@
         android:theme="@style/Theme.TaskerCalendarPlugin"
         tools:targetApi="31">
 
+        <service
+            android:name="*"
+            tools:node="merge"
+            tools:remove="android:foregroundServiceType"
+            tools:replace="android:foregroundServiceType"
+            android:foregroundServiceType="location" />
+
         <!-- Tasker Plugin Version Metadata -->
         <meta-data
             android:name="com.twofortyfouram.locale.api.BONUS_STRING_PLUGIN_VERSION_CODE"
