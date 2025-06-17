@@ -20,14 +20,16 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v3
 
-      - name: Generate Gradle Wrapper
+      - name: Generate Gradle Wrapper in TaskerCalendarPlugin
         run: gradle wrapper --gradle-version 8.4
+        working-directory: ./TaskerCalendarPlugin
 
       - name: Upload generated wrapper files
         uses: actions/upload-artifact@v4
         with:
           name: gradle-wrapper
           path: |
-            gradlew
-            gradlew.bat
-            gradle/wrapper/gradle-wrapper.*
+            TaskerCalendarPlugin/gradlew
+            TaskerCalendarPlugin/gradlew.bat
+            TaskerCalendarPlugin/gradle/wrapper/gradle-wrapper.jar
+            TaskerCalendarPlugin/gradle/wrapper/gradle-wrapper.properties
