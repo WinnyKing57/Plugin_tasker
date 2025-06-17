@@ -16,8 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.TaskerCalendarPlugin"
-        tools:targetApi="33"
-        tools:remove="android:foregroundServiceType"> <!-- Consolidated and updated -->
+        tools:targetApi="33">
 
         <!-- Tasker Plugin Version Metadata -->
         <meta-data
@@ -32,8 +31,6 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.api.intent.action.EDIT_SETTING" />
-                <!-- Use ACTION_EDIT_CONDITION if it's a Condition type plugin -->
-                <!-- <action android:name="com.twofortyfouram.locale.api.intent.action.EDIT_CONDITION" /> -->
             </intent-filter>
         </activity>
 
@@ -41,7 +38,7 @@
         <receiver
             android:name=".receiver.PluginQueryReceiver"
             android:exported="true"
-            android:process=":background"> <!-- Run in a separate process if recommended by Tasker docs -->
+            android:process=":background">
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.api.intent.action.QUERY_CONDITION" />
             </intent-filter>
@@ -51,19 +48,11 @@
         <receiver
             android:name=".receiver.PluginFireReceiver"
             android:exported="true"
-            android:process=":background"> <!-- Run in a separate process if recommended by Tasker docs -->
+            android:process=":background">
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.api.intent.action.FIRE_SETTING" />
             </intent-filter>
         </receiver>
-
-        <!-- Attempt to remove foregroundServiceType from specific library components -->
-        <service android:name="com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerAction" tools:remove="android:foregroundServiceType" />
-        <service android:name="com.joaomgcd.taskerpluginlibrary.condition.TaskerPluginRunnerCondition" tools:remove="android:foregroundServiceType" />
-        <service android:name="com.joaomgcd.taskerpluginlibrary.event.TaskerPluginRunnerEvent" tools:remove="android:foregroundServiceType" />
-        <receiver android:name="com.joaomgcd.taskerpluginlibrary.receiver.TaskerPluginRunnerReceiver" tools:remove="android:foregroundServiceType" />
-        <receiver android:name="com.joaomgcd.taskerpluginlibrary.receiver.ReceiverQuery" tools:remove="android:foregroundServiceType" />
-
 
     </application>
 
