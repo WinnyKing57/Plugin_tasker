@@ -5,6 +5,7 @@ pluginManagement {
         gradlePluginPortal()
     }
 }
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -12,5 +13,9 @@ dependencyResolutionManagement {
         mavenCentral()
     }
 }
+
 rootProject.name = "TaskerCalendarPlugin"
+
 include ':app'
+include ':TaskerPluginLibrary'
+project(':TaskerPluginLibrary').projectDir = file('TaskerPluginLibrary')
