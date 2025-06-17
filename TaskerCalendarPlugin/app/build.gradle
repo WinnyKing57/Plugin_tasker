@@ -27,28 +27,21 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    // Ensure Kotlin JVM target is also set if not implicitly handled by AGP/Kotlin plugin
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version" // Add Kotlin stdlib
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:\$kotlin_version" // Uses project-level kotlin_version
     implementation 'androidx.core:core-ktx:1.10.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.9.0'
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-
-    // Placeholder for Tasker Plugin SDK - this will need to be replaced with the actual SDK
-    // implementation files('libs/tasker-plugin-sdk.jar') // Example if it's a local .jar
-    // implementation 'net.dinglisch.android:taskerpluginlibrary:0.2.5' // Example if it's a remote dependency like the common one on Maven Central
-    // implementation 'net.dinglisch.android.tasker:taskerpluginlibrary:0.0.4'
-    implementation 'com.joaomgcd:taskerpluginlibrary:0.4.10'
-    // To use a local .jar, you would typically:
-    // 1. Create an 'app/libs' directory if it doesn't exist.
-    // 2. Copy your 'tasker-plugin-library.jar' into 'app/libs'.
-    // 3. Uncomment the line: implementation files('libs/tasker-plugin-library.jar')
-    // 4. Sync Gradle.
-
+    implementation 'com.joaomgcd:taskerpluginlibrary:0.4.10' // Latest version, no update found
     constraints {
         implementation('androidx.lifecycle:lifecycle-process') {
             version { strictly '2.6.1' }
