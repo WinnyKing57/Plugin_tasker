@@ -13,7 +13,7 @@ buildscript {
         // The actual plugin application (id 'com.android.application') happens in the module-level build.gradle.
         classpath 'com.android.tools.build:gradle:8.3.2' // Updated AGP version
         // Kotlin Gradle Plugin
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:\$kotlin_version" // Uses updated Kotlin version
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version" // Uses updated Kotlin version
     }
 }
 
