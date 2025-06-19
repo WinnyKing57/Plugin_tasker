@@ -17,9 +17,9 @@ import java.util.Calendar;
 final class LocaleIntent {
     public static final String EXTRA_BUNDLE = "com.twofortyfouram.locale.api.intent.extra.BUNDLE";
     public static final String ACTION_QUERY_CONDITION = "com.twofortyfouram.locale.api.intent.action.QUERY_CONDITION";
-    public static final int RESULT_CONDITION_SATISFIED = com.twofortyfouram.locale.api.Intent.RESULT_CONDITION_SATISFIED;
-    public static final int RESULT_CONDITION_UNSATISFIED = com.twofortyfouram.locale.api.Intent.RESULT_CONDITION_UNSATISFIED;
-    public static final int RESULT_CONDITION_UNKNOWN = com.twofortyfouram.locale.api.Intent.RESULT_CONDITION_UNKNOWN;
+    public static final int RESULT_CONDITION_SATISFIED = 16;
+    public static final int RESULT_CONDITION_UNSATISFIED = 17;
+    public static final int RESULT_CONDITION_UNKNOWN = 18;
 
     public static class TaskerPlugin {
         public static final String VARIABLE_BUNDLE_KEY = "net.dinglisch.android.tasker.extras.VARIABLE_BUNDLE";

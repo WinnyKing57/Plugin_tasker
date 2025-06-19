@@ -49,12 +49,12 @@ public class CalendarPermissionHelper {
     /**
      * Checks if both READ_CALENDAR and WRITE_CALENDAR permissions are granted.
      *
-     * @param activity The context to use for checking permissions.
+     * @param context The context to use for checking permissions.
      * @return true if both permissions are granted, false otherwise.
      */
-    public static boolean areCalendarPermissionsGranted(Activity activity) {
-        boolean readPermission = ContextCompat.checkSelfPermission(activity, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
-        boolean writePermission = ContextCompat.checkSelfPermission(activity, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED;
+    public static boolean areCalendarPermissionsGranted(Context context) {
+        boolean readPermission = ContextCompat.checkSelfPermission(context, Manifest.permission.READ_CALENDAR) == PackageManager.PERMISSION_GRANTED;
+        boolean writePermission = ContextCompat.checkSelfPermission(context, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED;
         return readPermission && writePermission;
     }
 

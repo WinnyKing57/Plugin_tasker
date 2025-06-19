@@ -17,6 +17,7 @@ import android.provider.Settings; // Added for opening app settings
 import androidx.annotation.NonNull; // Added for onRequestPermissionsResult
 import androidx.appcompat.app.AlertDialog; // For rationale dialog
 import android.content.DialogInterface; // For dialog listeners
+import android.net.Uri;
 
 
 import com.example.taskercalendarplugin.R;
