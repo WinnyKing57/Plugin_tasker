@@ -6,7 +6,7 @@ import com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerAction
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResult
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultSucess // Corrected typo as per instruction
-import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultError
+// import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultError // Removed as TaskerPluginResultErrorWithOutput is used
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultErrorWithOutput // Added import
 import com.example.taskercalendarplugin.tasker.model.CalendarPluginInput
 import com.example.taskercalendarplugin.tasker.model.CalendarPluginOutput
