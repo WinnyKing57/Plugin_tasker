@@ -8,9 +8,10 @@ import android.util.Log;
 
 import com.example.taskercalendarplugin.util.CalendarResolverHelper;
 import com.example.taskercalendarplugin.model.EventDTO;
+import com.example.taskercalendarplugin.ui.PluginEditActivity; // ✅ Import ajouté ici
 
 import java.util.List;
-import java.util.Calendar; // ✅ Import manquant ajouté ici
+import java.util.Calendar;
 
 // Standard Tasker plugin API constants (similar to PluginEditActivity)
 final class LocaleIntent {
