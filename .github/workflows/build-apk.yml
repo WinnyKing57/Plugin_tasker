@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: TaskerCalendarPlugin
 
     steps:
       - name: Checkout source
@@ -17,7 +20,7 @@ jobs:
       - name: 📁 Lister tous les fichiers du dépôt
         run: |
           echo "🗂 Structure du dépôt :"
-          find $GITHUB_WORKSPACE
+          find .
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
