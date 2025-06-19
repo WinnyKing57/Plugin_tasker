@@ -16,6 +16,6 @@ dependencyResolutionManagement {
 
 rootProject.name = "TaskerCalendarPlugin"
 
-include ':app'
-include ':TaskerPluginLibrary'
-project(':TaskerPluginLibrary').projectDir = file('taskerpluginlibrary')
+include(":app")
+include(":TaskerPluginLibrary")
+project(":TaskerPluginLibrary").projectDir = file("taskerpluginlibrary")
