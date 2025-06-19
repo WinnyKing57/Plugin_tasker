@@ -50,7 +50,7 @@
 
         <!-- Plugin Fire BroadcastReceiver (for Actions/Settings) -->
         <receiver
-            android:name=".receiver.PluginFireReceiver"
+            android:name="com.joaomgcd.taskerpluginlibrary.action.BroadcastReceiverAction"
             android:exported="true"
             android:process=":background">
             <intent-filter>

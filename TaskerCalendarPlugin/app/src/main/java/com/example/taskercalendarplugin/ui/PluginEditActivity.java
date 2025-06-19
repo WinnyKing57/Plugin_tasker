@@ -18,27 +18,149 @@ import androidx.annotation.NonNull; // Added for onRequestPermissionsResult
 import androidx.appcompat.app.AlertDialog; // For rationale dialog
 import android.content.DialogInterface; // For dialog listeners
 import android.net.Uri;
-
+import android.content.Context; // Added for TaskerPluginConfig
 
 import com.example.taskercalendarplugin.R;
 import com.example.taskercalendarplugin.util.CalendarPermissionHelper; // Added
-// These are the standard Tasker plugin API constants
-// For a real library, you'd import these (e.g., com.twofortyfouram.locale.api.Intent.EXTRA_BUNDLE)
-// but for now, we define them if not using the actual Tasker library.
-// If you add the TaskerPluginSDK.aar or similar, you would remove these manual definitions.
-final class LocaleIntent {
-    public static final String EXTRA_BUNDLE = "com.twofortyfouram.locale.api.intent.extra.BUNDLE";
-    public static final String EXTRA_STRING_BLURB = "com.twofortyfouram.locale.api.intent.extra.BLURB";
-    // Action for a setting/action configuration
-    public static final String ACTION_EDIT_SETTING = "com.twofortyfouram.locale.api.intent.action.EDIT_SETTING";
-    // Action for a condition configuration
-    public static final String ACTION_EDIT_CONDITION = "com.twofortyfouram.locale.api.intent.action.EDIT_CONDITION";
-}
+import com.joaomgcd.taskerpluginlibrary.config.TaskerPluginConfig; // Added for TaskerPluginConfig
+import com.joaomgcd.taskerpluginlibrary.input.TaskerInput; // Added for TaskerPluginConfig
+import com.example.taskercalendarplugin.tasker.model.CalendarPluginInput; // Added for TaskerPluginConfig
+import com.example.taskercalendarplugin.tasker.CalendarPluginHelper; // Added for TaskerPluginConfig
+// The LocaleIntent class previously here is now removed as its functionality
+// (EXTRA_BUNDLE, EXTRA_STRING_BLURB, etc.) is handled by the TaskerPluginLibrary.
+// Action constants like ACTION_EDIT_SETTING and ACTION_EDIT_CONDITION are typically
+// used in AndroidManifest.xml and not directly needed in the Activity code after refactoring
+// to the library helper.
 
 
-public class PluginEditActivity extends Activity {
+public class PluginEditActivity extends Activity implements TaskerPluginConfig<CalendarPluginInput> {
 
     private static final String TAG = "PluginEditActivity";
+    private CalendarPluginHelper taskerHelper; // Added for TaskerPluginConfig
+
+    // --- TaskerPluginConfig Methods ---
+    @Override
+    public Context getContext() {
+        return getApplicationContext();
+    }
+
+    // Override methods from Activity that TaskerPluginConfig might call
+    @Override
+    public Intent getIntent() {
+        return super.getIntent(); // Already present in Activity, but explicitly defined by interface
+    }
+
+    @Override
+    public void setResult(int resultCode, Intent data) {
+        super.setResult(resultCode, data); // Already present in Activity
+    }
+
+    // Note: finish() is also in the interface, but we'll handle its override when dealing with save/back
+    @Override
+    public void finish() {
+        super.finish(); // Already present in Activity
+    }
+
+    @Override
+    public void assignFromInput(TaskerInput<CalendarPluginInput> input) {
+        if (input == null || input.getRegular() == null) {
+            Log.w(TAG, "assignFromInput: null input or regular input received. Setting default UI state.");
+            spinnerActionType.setSelection(0); // Default to first item
+            updateUiVisibility(spinnerActionType.getSelectedItem() != null ? spinnerActionType.getSelectedItem().toString() : "");
+            // Clear fields or set defaults
+            etGetEventsCount.setText("");
+            etGetEventsDaysAhead.setText("7"); // Default days
+            etAddEventTitle.setText("");
+            etAddEventDescription.setText("");
+            etAddEventLocation.setText("");
+            etAddEventStartTimeOffset.setText("60"); // Default offset
+            etAddEventDuration.setText("30"); // Default duration
+            if (editTextConfig != null) editTextConfig.setText("");
+            return;
+        }
+
+        CalendarPluginInput pluginInput = input.getRegular();
+        String actionType = pluginInput.getActionType();
+
+        if (actionType == null && pluginInput.getLegacyConfigData() != null) {
+            // Handle legacy config
+            Log.w(TAG, "assignFromInput: Old configuration data found: " + pluginInput.getLegacyConfigData() + ". Attempting to show in legacy field.");
+            if (editTextConfig != null) {
+                editTextConfig.setText(pluginInput.getLegacyConfigData());
+                editTextConfig.setVisibility(View.VISIBLE);
+                layoutGetEventsConfig.setVisibility(View.GONE);
+                layoutAddEventConfig.setVisibility(View.GONE);
+                spinnerActionType.setEnabled(false);
+                buttonSave.setText(R.string.button_save_legacy_config);
+            }
+            return;
+        }
+
+        // Restore normal UI if it was in legacy mode
+        if (editTextConfig != null) editTextConfig.setVisibility(View.GONE);
+        spinnerActionType.setEnabled(true);
+        buttonSave.setText(R.string.button_save_config);
+
+
+        int spinnerPosition = 0;
+        if (ACTION_GET_EVENTS.equals(actionType)) {
+            spinnerPosition = getSpinnerPosition(R.array.action_types_array, getString(R.string.action_get_events_label));
+            etGetEventsCount.setText(pluginInput.getGetEventsCount() != null ? pluginInput.getGetEventsCount() : "");
+            etGetEventsDaysAhead.setText(pluginInput.getGetEventsDaysAhead() != null ? pluginInput.getGetEventsDaysAhead() : "7");
+        } else if (ACTION_ADD_EVENT.equals(actionType)) {
+            spinnerPosition = getSpinnerPosition(R.array.action_types_array, getString(R.string.action_add_event_label));
+            etAddEventTitle.setText(pluginInput.getAddEventTitle() != null ? pluginInput.getAddEventTitle() : "");
+            etAddEventDescription.setText(pluginInput.getAddEventDescription() != null ? pluginInput.getAddEventDescription() : "");
+            etAddEventLocation.setText(pluginInput.getAddEventLocation() != null ? pluginInput.getAddEventLocation() : "");
+            etAddEventStartTimeOffset.setText(pluginInput.getAddEventStartTimeOffset() != null ? pluginInput.getAddEventStartTimeOffset() : "60");
+            etAddEventDuration.setText(pluginInput.getAddEventDuration() != null ? pluginInput.getAddEventDuration() : "30");
+        } else {
+             Log.d(TAG, "assignFromInput: Unknown or null actionType. Setting default UI.");
+             spinnerActionType.setSelection(0); // Default to first item
+             // Clear fields or set defaults for new config
+             etGetEventsCount.setText("");
+             etGetEventsDaysAhead.setText("7");
+             etAddEventTitle.setText("");
+             etAddEventDescription.setText("");
+             etAddEventLocation.setText("");
+             etAddEventStartTimeOffset.setText("60");
+             etAddEventDuration.setText("30");
+        }
+        spinnerActionType.setSelection(spinnerPosition);
+        updateUiVisibility(spinnerActionType.getSelectedItem() != null ? spinnerActionType.getSelectedItem().toString() : "");
+        Log.d(TAG, "Configuration loaded via assignFromInput for action: " + actionType);
+    }
+
+    @Override
+    public TaskerInput<CalendarPluginInput> getInputForTasker() {
+        CalendarPluginInput currentInput = new CalendarPluginInput();
+        String selectedActionLabel = "";
+        if (spinnerActionType.getSelectedItem() != null) {
+            selectedActionLabel = spinnerActionType.getSelectedItem().toString();
+        }
+
+        if (selectedActionLabel.equals(getString(R.string.action_get_events_label))) {
+            currentInput.setActionType(ACTION_GET_EVENTS);
+            currentInput.setGetEventsCount(etGetEventsCount.getText().toString().trim());
+            currentInput.setGetEventsDaysAhead(etGetEventsDaysAhead.getText().toString().trim());
+        } else if (selectedActionLabel.equals(getString(R.string.action_add_event_label))) {
+            currentInput.setActionType(ACTION_ADD_EVENT);
+            currentInput.setAddEventTitle(etAddEventTitle.getText().toString().trim());
+            currentInput.setAddEventDescription(etAddEventDescription.getText().toString().trim());
+            currentInput.setAddEventLocation(etAddEventLocation.getText().toString().trim());
+            currentInput.setAddEventStartTimeOffset(etAddEventStartTimeOffset.getText().toString().trim());
+            currentInput.setAddEventDuration(etAddEventDuration.getText().toString().trim());
+        } else if (editTextConfig != null && editTextConfig.getVisibility() == View.VISIBLE) {
+            currentInput.setLegacyConfigData(editTextConfig.getText().toString().trim());
+            // actionType might remain null for legacy, or set a specific legacy action type if desired
+        } else {
+            // Potentially unconfigured or unknown state
+             Log.w(TAG, "getInputForTasker: Unselected or unknown action type during save.");
+             // Set a default or leave actionType null if that's how unconfigured should be handled
+        }
+        return new TaskerInput<>(currentInput);
+    }
+    // --- End TaskerPluginConfig Methods ---
 
     // Configuration Action Types
     public static final String ACTION_TYPE_KEY = "action_type";
@@ -57,13 +179,13 @@ public class PluginEditActivity extends Activity {
     public static final String BUNDLE_KEY_ADD_EVENT_DURATION = "add_event_duration"; // e.g., minutes
 
     // Fallback for old simple config (can be removed once fully migrated)
-    private static final String BUNDLE_KEY_CONFIG_DATA = "config_data_key";
+    // private static final String BUNDLE_KEY_CONFIG_DATA = "config_data_key"; // Now handled by CalendarPluginInput's legacyConfigData
 
 
-    private EditText editTextConfig; // Will be replaced by specific fields
+    private EditText editTextConfig; // Will be replaced by specific fields. Kept for legacy handling in assignFromInput.
     private Button buttonSave;
-    private boolean isCancelled = true; // Assume cancelled until save is clicked
-    private Bundle existingBundle = null;
+    // private boolean isCancelled = true; // Assume cancelled until save is clicked -> Handled by Tasker library
+    // private Bundle existingBundle = null; // Handled by Tasker library and assignFromInput
 
     // UI Elements - to be defined in XML and initialized here
     private android.widget.Spinner spinnerActionType;
@@ -78,6 +200,8 @@ public class PluginEditActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plugin_edit);
+
+        taskerHelper = new CalendarPluginHelper(this); // Initialize Tasker helper
 
         // Initialize UI elements (IDs will be defined in the XML)
         spinnerActionType = findViewById(R.id.spinnerActionType);
@@ -119,32 +243,79 @@ public class PluginEditActivity extends Activity {
             }
         });
 
+        taskerHelper.onCreate(); // This will call assignFromInput with current Tasker data
 
-        // Retrieve existing configuration if any
-        existingBundle = getIntent().getBundleExtra(LocaleIntent.EXTRA_BUNDLE);
-        if (existingBundle == null) {
-            existingBundle = new Bundle(); // Initialize if null
-            Log.d(TAG, "No existing configuration found, created new Bundle.");
-        } else {
-            Log.d(TAG, "Existing configuration bundle found.");
-        }
-        // loadConfiguration() is called in onResume after permission check
+        // // Retrieve existing configuration if any -> Handled by taskerHelper.onCreate() & assignFromInput
+        // existingBundle = getIntent().getBundleExtra(LocaleIntent.EXTRA_BUNDLE);
+        // if (existingBundle == null) {
+        //     existingBundle = new Bundle(); // Initialize if null
+        //     Log.d(TAG, "No existing configuration found, created new Bundle.");
+        // } else {
+        //     Log.d(TAG, "Existing configuration bundle found.");
+        // }
+        // // loadConfiguration() is called in onResume after permission check -> Logic moved to assignFromInput
 
         buttonSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Validation is kept here for now, but could be moved to CalendarPluginHelper.isInputValid
                 if (CalendarPermissionHelper.areCalendarPermissionsGranted(PluginEditActivity.this)) {
-                    saveConfiguration();
+                    // Basic validation before attempting to save with helper
+                    String selectedActionLabel = spinnerActionType.getSelectedItem() != null ? spinnerActionType.getSelectedItem().toString() : "";
+                    if (selectedActionLabel.equals(getString(R.string.action_get_events_label))) {
+                        String countStr = etGetEventsCount.getText().toString().trim();
+                        String daysAheadStr = etGetEventsDaysAhead.getText().toString().trim();
+                        if (TextUtils.isEmpty(countStr) && TextUtils.isEmpty(daysAheadStr)) {
+                            etGetEventsCount.setError(getString(R.string.error_field_required_one_of_two));
+                            etGetEventsDaysAhead.setError(getString(R.string.error_field_required_one_of_two));
+                            Toast.makeText(PluginEditActivity.this, R.string.error_get_events_config_required, Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        try {
+                            if (!TextUtils.isEmpty(countStr)) Integer.parseInt(countStr);
+                            if (!TextUtils.isEmpty(daysAheadStr)) Integer.parseInt(daysAheadStr);
+                        } catch (NumberFormatException e) {
+                            Toast.makeText(PluginEditActivity.this, R.string.error_invalid_number_format, Toast.LENGTH_SHORT).show();
+                            if (!TextUtils.isEmpty(countStr) && !countStr.matches("\\d+")) etGetEventsCount.setError(getString(R.string.error_invalid_number_format));
+                            if (!TextUtils.isEmpty(daysAheadStr) && !daysAheadStr.matches("\\d+")) etGetEventsDaysAhead.setError(getString(R.string.error_invalid_number_format));
+                            return;
+                        }
+                    } else if (selectedActionLabel.equals(getString(R.string.action_add_event_label))) {
+                        String title = etAddEventTitle.getText().toString().trim();
+                        if (TextUtils.isEmpty(title)) {
+                            etAddEventTitle.setError(getString(R.string.error_field_required));
+                            Toast.makeText(PluginEditActivity.this, R.string.error_add_event_title_required, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        String startTimeOffsetStr = etAddEventStartTimeOffset.getText().toString().trim();
+                        String durationStr = etAddEventDuration.getText().toString().trim();
+                         try {
+                            if (!TextUtils.isEmpty(startTimeOffsetStr)) Integer.parseInt(startTimeOffsetStr); else etAddEventStartTimeOffset.setText("60");
+                            if (!TextUtils.isEmpty(durationStr)) Integer.parseInt(durationStr); else etAddEventDuration.setText("30");
+                        } catch (NumberFormatException e) {
+                            Toast.makeText(PluginEditActivity.this, R.string.error_invalid_number_format, Toast.LENGTH_SHORT).show();
+                            if (!TextUtils.isEmpty(startTimeOffsetStr) && !startTimeOffsetStr.matches("\\d*")) etAddEventStartTimeOffset.setError(getString(R.string.error_invalid_number_format));
+                            if (!TextUtils.isEmpty(durationStr) && !durationStr.matches("\\d*")) etAddEventDuration.setError(getString(R.string.error_invalid_number_format));
+                            return;
+                        }
+                    } else if (editTextConfig == null || editTextConfig.getVisibility() != View.VISIBLE || TextUtils.isEmpty(editTextConfig.getText().toString().trim())) {
+                         // If not legacy mode and no valid new action selected (should be handled by spinner default)
+                        if (spinnerActionType.isEnabled()) { // Only error if new UI was supposed to be used
+                            Toast.makeText(PluginEditActivity.this, R.string.error_invalid_action, Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                    // If all validation passes
+                    taskerHelper.finishForTasker();
                 } else {
                     Toast.makeText(PluginEditActivity.this, R.string.permissions_not_granted_save_disabled, Toast.LENGTH_LONG).show();
-                    // Optionally, trigger permission request again or guide user to settings
                     checkPermissionsAndSetupUI();
                 }
             }
         });
 
-        // Ensure that the result is RESULT_CANCELED if the Activity is finished without saving
-        setResult(RESULT_CANCELED);
+        // // Ensure that the result is RESULT_CANCELED if the Activity is finished without saving -> Handled by Tasker library
+        // setResult(RESULT_CANCELED);
         // Permission check will be done in onResume
     }
 
@@ -158,7 +329,8 @@ public class PluginEditActivity extends Activity {
         if (CalendarPermissionHelper.areCalendarPermissionsGranted(this)) {
             tvPermissionStatus.setVisibility(View.GONE);
             enableUiComponents(true);
-            loadConfiguration(); // Load config only if permissions are granted
+            // loadConfiguration(); // Removed: assignFromInput, called via taskerHelper.onCreate(), handles loading.
+                                 // UI state is updated by assignFromInput and enableUiComponents.
         } else {
             tvPermissionStatus.setText(R.string.permissions_required_to_configure);
             tvPermissionStatus.setVisibility(View.VISIBLE);
@@ -242,55 +414,7 @@ public class PluginEditActivity extends Activity {
         }
     }
 
-    private void loadConfiguration() {
-        if (!CalendarPermissionHelper.areCalendarPermissionsGranted(this)) {
-            Log.w(TAG, "loadConfiguration: Permissions not granted. Skipping load.");
-            // UI should be disabled by checkPermissionsAndSetupUI
-            return;
-        }
-
-        if (existingBundle == null || existingBundle.isEmpty()) {
-            Log.d(TAG, "loadConfiguration: Bundle is null or empty, setting default UI state.");
-            spinnerActionType.setSelection(0);
-            updateUiVisibility(spinnerActionType.getSelectedItem() != null ? spinnerActionType.getSelectedItem().toString() : "");
-            return;
-        }
-
-        String actionType = existingBundle.getString(ACTION_TYPE_KEY);
-        if (actionType == null) {
-            String oldConfig = existingBundle.getString(BUNDLE_KEY_CONFIG_DATA);
-            if (oldConfig != null && editTextConfig != null) {
-                Log.w(TAG, "Old configuration data found: " + oldConfig + ". Attempting to show in legacy field.");
-                editTextConfig.setText(oldConfig);
-                editTextConfig.setVisibility(View.VISIBLE); // Show old field
-                layoutGetEventsConfig.setVisibility(View.GONE);
-                layoutAddEventConfig.setVisibility(View.GONE);
-                spinnerActionType.setEnabled(false); // Disable new UI if old config is present
-                buttonSave.setText(R.string.button_save_legacy_config); // Change button text
-            } else {
-                spinnerActionType.setSelection(0);
-                updateUiVisibility(spinnerActionType.getSelectedItem() != null ? spinnerActionType.getSelectedItem().toString() : "");
-            }
-            return;
-        }
-
-        int spinnerPosition = 0;
-        if (ACTION_GET_EVENTS.equals(actionType)) {
-            spinnerPosition = getSpinnerPosition(R.array.action_types_array, getString(R.string.action_get_events_label));
-            etGetEventsCount.setText(existingBundle.getString(BUNDLE_KEY_GET_EVENTS_COUNT, ""));
-            etGetEventsDaysAhead.setText(existingBundle.getString(BUNDLE_KEY_GET_EVENTS_DAYS_AHEAD, "7"));
-        } else if (ACTION_ADD_EVENT.equals(actionType)) {
-            spinnerPosition = getSpinnerPosition(R.array.action_types_array, getString(R.string.action_add_event_label));
-            etAddEventTitle.setText(existingBundle.getString(BUNDLE_KEY_ADD_EVENT_TITLE, ""));
-            etAddEventDescription.setText(existingBundle.getString(BUNDLE_KEY_ADD_EVENT_DESCRIPTION, ""));
-            etAddEventLocation.setText(existingBundle.getString(BUNDLE_KEY_ADD_EVENT_LOCATION, ""));
-            etAddEventStartTimeOffset.setText(existingBundle.getString(BUNDLE_KEY_ADD_EVENT_START_TIME_OFFSET, "60"));
-            etAddEventDuration.setText(existingBundle.getString(BUNDLE_KEY_ADD_EVENT_DURATION, "30"));
-        }
-        spinnerActionType.setSelection(spinnerPosition);
-        updateUiVisibility(spinnerActionType.getSelectedItem() != null ? spinnerActionType.getSelectedItem().toString() : "");
-        Log.d(TAG, "Configuration loaded for action: " + actionType);
-    }
+    // private void loadConfiguration() { ... } // Method removed, logic is now in assignFromInput, called by taskerHelper.onCreate()
 
     private int getSpinnerPosition(int arrayResourceId, String valueToFind) {
         String[] array = getResources().getStringArray(arrayResourceId);
@@ -303,120 +427,26 @@ public class PluginEditActivity extends Activity {
         return 0;
     }
 
+    // private void saveConfiguration() { ... } // Method removed, logic incorporated into buttonSave OnClickListener and helper methods.
 
-    private void saveConfiguration() {
-        // Reset errors
-        etGetEventsCount.setError(null);
-        etGetEventsDaysAhead.setError(null);
-        etAddEventTitle.setError(null);
-        etAddEventStartTimeOffset.setError(null);
-        etAddEventDuration.setError(null);
-
-        final Intent resultIntent = new Intent();
-        final Bundle resultBundle = new Bundle();
-
-        String selectedActionLabel = spinnerActionType.getSelectedItem() != null ? spinnerActionType.getSelectedItem().toString() : "";
-        String actionTypeConstant = "";
-        String blurb = "";
-
-        if (selectedActionLabel.equals(getString(R.string.action_get_events_label))) {
-            actionTypeConstant = ACTION_GET_EVENTS;
-            String countStr = etGetEventsCount.getText().toString().trim();
-            String daysAheadStr = etGetEventsDaysAhead.getText().toString().trim();
-
-            if (TextUtils.isEmpty(countStr) && TextUtils.isEmpty(daysAheadStr)) {
-                etGetEventsCount.setError(getString(R.string.error_field_required_one_of_two));
-                etGetEventsDaysAhead.setError(getString(R.string.error_field_required_one_of_two));
-                Toast.makeText(this, R.string.error_get_events_config_required, Toast.LENGTH_LONG).show();
-                return;
-            }
-            // Further validation for numeric input if desired
-            try {
-                if (!TextUtils.isEmpty(countStr)) Integer.parseInt(countStr);
-                if (!TextUtils.isEmpty(daysAheadStr)) Integer.parseInt(daysAheadStr);
-            } catch (NumberFormatException e) {
-                Toast.makeText(this, R.string.error_invalid_number_format, Toast.LENGTH_SHORT).show();
-                if (!TextUtils.isEmpty(countStr) && !countStr.matches("\\d+")) etGetEventsCount.setError(getString(R.string.error_invalid_number_format));
-                if (!TextUtils.isEmpty(daysAheadStr) && !daysAheadStr.matches("\\d+")) etGetEventsDaysAhead.setError(getString(R.string.error_invalid_number_format));
-                return;
-            }
-
-            resultBundle.putString(ACTION_TYPE_KEY, actionTypeConstant);
-            resultBundle.putString(BUNDLE_KEY_GET_EVENTS_COUNT, countStr);
-            resultBundle.putString(BUNDLE_KEY_GET_EVENTS_DAYS_AHEAD, daysAheadStr);
-            blurb = getString(R.string.blurb_get_events_prefix);
-            if (!TextUtils.isEmpty(countStr)) blurb += countStr + getString(R.string.blurb_get_events_count_suffix);
-            if (!TextUtils.isEmpty(daysAheadStr)) blurb += (!TextUtils.isEmpty(countStr) ? ", " : "") + daysAheadStr + getString(R.string.blurb_get_events_days_suffix);
-
-        } else if (selectedActionLabel.equals(getString(R.string.action_add_event_label))) {
-            actionTypeConstant = ACTION_ADD_EVENT;
-            String title = etAddEventTitle.getText().toString().trim();
-            String startTimeOffsetStr = etAddEventStartTimeOffset.getText().toString().trim();
-            String durationStr = etAddEventDuration.getText().toString().trim();
-
-            if (TextUtils.isEmpty(title)) {
-                etAddEventTitle.setError(getString(R.string.error_field_required));
-                Toast.makeText(this, R.string.error_add_event_title_required, Toast.LENGTH_SHORT).show();
-                return;
-            }
-             try {
-                if (!TextUtils.isEmpty(startTimeOffsetStr)) Integer.parseInt(startTimeOffsetStr); else etAddEventStartTimeOffset.setText("60"); // Default if empty
-                if (!TextUtils.isEmpty(durationStr)) Integer.parseInt(durationStr); else etAddEventDuration.setText("30"); // Default if empty
-            } catch (NumberFormatException e) {
-                Toast.makeText(this, R.string.error_invalid_number_format, Toast.LENGTH_SHORT).show();
-                if (!TextUtils.isEmpty(startTimeOffsetStr) && !startTimeOffsetStr.matches("\\d*")) etAddEventStartTimeOffset.setError(getString(R.string.error_invalid_number_format));
-                if (!TextUtils.isEmpty(durationStr) && !durationStr.matches("\\d*")) etAddEventDuration.setError(getString(R.string.error_invalid_number_format));
-                return;
-            }
-
-
-            resultBundle.putString(ACTION_TYPE_KEY, actionTypeConstant);
-            resultBundle.putString(BUNDLE_KEY_ADD_EVENT_TITLE, title);
-            resultBundle.putString(BUNDLE_KEY_ADD_EVENT_DESCRIPTION, etAddEventDescription.getText().toString().trim());
-            resultBundle.putString(BUNDLE_KEY_ADD_EVENT_LOCATION, etAddEventLocation.getText().toString().trim());
-            resultBundle.putString(BUNDLE_KEY_ADD_EVENT_START_TIME_OFFSET, etAddEventStartTimeOffset.getText().toString());
-            resultBundle.putString(BUNDLE_KEY_ADD_EVENT_DURATION, etAddEventDuration.getText().toString());
-            blurb = getString(R.string.blurb_add_event_prefix) + title;
-        } else {
-             String oldConfigText = "";
-             if (editTextConfig != null && editTextConfig.getVisibility() == View.VISIBLE) {
-                oldConfigText = editTextConfig.getText().toString().trim();
-             }
-             if (!TextUtils.isEmpty(oldConfigText)) {
-                 resultBundle.putString(BUNDLE_KEY_CONFIG_DATA, oldConfigText);
-                 blurb = getString(R.string.blurb_legacy_prefix) + oldConfigText;
-                 Log.w(TAG, "Saving legacy configuration: " + oldConfigText);
-             } else if (spinnerActionType.isEnabled()){ // Only error if new UI was supposed to be used
-                Toast.makeText(this, R.string.error_invalid_action, Toast.LENGTH_SHORT).show();
-                return;
-             } else { // No valid new or old config to save
-                 Toast.makeText(this, R.string.error_no_config_to_save, Toast.LENGTH_SHORT).show();
-                 return;
-             }
-        }
-
-        resultIntent.putExtra(LocaleIntent.EXTRA_BUNDLE, resultBundle);
-        resultIntent.putExtra(LocaleIntent.EXTRA_STRING_BLURB, blurb);
-
-        setResult(RESULT_OK, resultIntent);
-        isCancelled = false;
-        Log.d(TAG, "Configuration saved. Action: " + actionTypeConstant + ", Blurb: " + blurb);
-        finish();
-    }
     @Override
     public void onBackPressed() {
-        Log.d(TAG, "Back pressed. isCancelled: " + isCancelled);
+        // Log.d(TAG, "Back pressed. isCancelled: " + isCancelled); // isCancelled removed
+        Log.d(TAG, "Back pressed.");
+        // taskerHelper.onBackPressed(); // Or equivalent if the library provides one for cancellation handling
         super.onBackPressed(); // This will call finish if not overridden further.
+                               // The Tasker library ensures RESULT_CANCELED if finishForTasker() isn't called.
     }
 
-    @Override
-    public void finish() {
-        if (isCancelled) {
-            setResult(RESULT_CANCELED);
-            Log.d(TAG, "Finishing with RESULT_CANCELED");
-        }
-        super.finish();
-    }
+    // finish() override is part of TaskerPluginConfig implementation, already added.
+    // @Override
+    // public void finish() {
+    //     // if (isCancelled) { // isCancelled removed
+    //     //     setResult(RESULT_CANCELED);
+    //     //     Log.d(TAG, "Finishing with RESULT_CANCELED");
+    //     // }
+    //     super.finish();
+    // }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -427,7 +457,13 @@ public class PluginEditActivity extends Activity {
             Log.d(TAG, "Calendar permissions GRANTED.");
             tvPermissionStatus.setVisibility(View.GONE);
             enableUiComponents(true);
-            loadConfiguration(); // Reload/setup UI now that we have permissions
+            // loadConfiguration(); // Removed: assignFromInput, called via taskerHelper.onCreate(), handles loading.
+                                 // UI state is updated by assignFromInput and enableUiComponents.
+            // If Activity was started without permissions, assignFromInput might have used defaults.
+            // Re-calling taskerHelper.onCreate() or assignFromInput directly might be needed if
+            // the initial input from Tasker should be re-processed after permissions are granted.
+            // For now, assume initial load by onCreate's taskerHelper.onCreate() is sufficient.
+            // If UI was disabled, enableUiComponents(true) will make it visible with current data.
         } else {
             Log.w(TAG, "Calendar permissions DENIED.");
             tvPermissionStatus.setText(R.string.permissions_denied_functionality_limited);
