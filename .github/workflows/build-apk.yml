@@ -38,10 +38,11 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle
 
-      - name: Install Android SDK Platform 34 and Build Tools
+      - name: Set up Android SDK environment
         run: |
-          echo "y" | sdkmanager "platforms;android-34" "build-tools;30.0.3"
-          echo "y" | sdkmanager --licenses
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_HOME} "platforms;android-34" "build-tools;30.0.3"
+          echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
 
       - name: Grant execute permission to gradlew
         run: chmod +x ./gradlew
