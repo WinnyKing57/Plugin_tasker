@@ -27,8 +27,8 @@
         <!-- Plugin Configuration Activity -->
         <activity
             android:name=".ui.PluginEditActivity"
-            android:label="Calendar Plugin Config"
-            android:icon="@android:drawable/ic_menu_preferences"
+            android:label="@string/calendar_plugin_action_label"
+            android:icon="@mipmap/ic_launcher"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.api.intent.action.EDIT_SETTING" />
