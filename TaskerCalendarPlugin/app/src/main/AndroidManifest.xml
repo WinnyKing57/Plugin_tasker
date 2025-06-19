@@ -33,12 +33,14 @@
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.api.intent.action.EDIT_SETTING" />
             </intent-filter>
+            <!-- Temporarily removed Condition intent filter
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.EDIT_CONDITION" />
             </intent-filter>
+            -->
         </activity>
 
-        <!-- Plugin Query BroadcastReceiver (for Conditions/States) -->
+        <!-- Plugin Query BroadcastReceiver (for Conditions/States) - Temporarily removed
         <receiver
             android:name=".receiver.PluginQueryReceiver"
             android:exported="true"
@@ -47,6 +49,7 @@
                 <action android:name="com.twofortyfouram.locale.api.intent.action.QUERY_CONDITION" />
             </intent-filter>
         </receiver>
+        -->
 
         <!-- Plugin Fire BroadcastReceiver (for Actions/Settings) -->
         <receiver
