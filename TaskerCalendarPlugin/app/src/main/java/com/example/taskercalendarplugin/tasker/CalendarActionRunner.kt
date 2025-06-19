@@ -7,6 +7,7 @@ import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResult
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultSucess // Corrected typo as per instruction
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultError
+import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultErrorWithOutput // Added import
 import com.example.taskercalendarplugin.tasker.model.CalendarPluginInput
 import com.example.taskercalendarplugin.tasker.model.CalendarPluginOutput
 import com.example.taskercalendarplugin.util.CalendarResolverHelper // We might use this later when re-enabling logic
@@ -31,7 +32,7 @@ class CalendarActionRunner : TaskerPluginRunnerAction<CalendarPluginInput, Calen
         //     // Note: A Runner typically cannot request permissions directly.
         //     // Permissions should be checked/requested in the Config Activity.
         //     // If not granted, the plugin action might just fail or do nothing.
-        //     return TaskerPluginResultError(1, "Calendar permissions not granted.")
+        //     return TaskerPluginResultErrorWithOutput<CalendarPluginOutput>(1, "Calendar permissions not granted.")
         // }
 
         // val resolverHelper = CalendarResolverHelper()
@@ -41,7 +42,7 @@ class CalendarActionRunner : TaskerPluginRunnerAction<CalendarPluginInput, Calen
             // Actual call to resolverHelper.addEvent(...) would be here.
             // For now, just returning success.
             if (input.regular.addEventTitle.isNullOrEmpty()) {
-                 return TaskerPluginResultError(2, "Event title is empty for Add Event action.")
+                 return TaskerPluginResultErrorWithOutput<CalendarPluginOutput>(2, "Event title is empty for Add Event action.")
             }
             // return TaskerPluginResultSucess(CalendarPluginOutput(errorMessage = null))
         } else if (input.regular.actionType == PluginEditActivity.ACTION_GET_EVENTS) {
@@ -51,7 +52,7 @@ class CalendarActionRunner : TaskerPluginRunnerAction<CalendarPluginInput, Calen
             // return TaskerPluginResultSucess(CalendarPluginOutput(nextEventTitle = "Sample Event (Simulated)", errorMessage = null))
         } else {
             Log.w(TAG, "Unknown action type: ${input.regular.actionType}")
-            // return TaskerPluginResultError(3, "Unknown action type: ${input.regular.actionType}")
+            // return TaskerPluginResultErrorWithOutput<CalendarPluginOutput>(3, "Unknown action type: ${input.regular.actionType}")
         }
 
         // Since all calendar logic is stubbed, we'll just return success for now
