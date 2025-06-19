@@ -5,11 +5,11 @@ plugins {
 
 android {
     namespace 'com.joaomgcd.taskerpluginlibrary'
-    compileSdk 33
+    compileSdk 34 // 🔼 Corrigé ici
 
     defaultConfig {
         minSdk 21
-        targetSdk 33
+        targetSdk 34 // 🔼 Corrigé ici aussi
         consumerProguardFiles 'proguard-rules.pro'
     }
 
@@ -33,7 +33,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:1.9.22"
 }
 
-// ✅ Ajout explicite d'une configuration 'api' consommable
+// ✅ Cette section peut rester si tu exposes ton AAR proprement
 afterEvaluate {
     configurations {
         apiElements {
