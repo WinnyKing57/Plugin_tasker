@@ -33,13 +33,15 @@ jobs:
 
       - name: Grant execute permission to gradlew
         run: chmod +x ./gradlew
+        working-directory: Plugin_tasker-main/TaskerCalendarPlugin
 
       - name: Build Debug APK
         run: ./gradlew assembleDebug --stacktrace
+        working-directory: Plugin_tasker-main/TaskerCalendarPlugin
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
           name: debug-apk
           path: |
-            **/build/outputs/apk/debug/*.apk
+            Plugin_tasker-main/TaskerCalendarPlugin/**/build/outputs/apk/debug/*.apk
