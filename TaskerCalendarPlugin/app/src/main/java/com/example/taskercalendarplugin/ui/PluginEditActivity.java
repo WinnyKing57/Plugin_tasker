@@ -24,6 +24,7 @@ import com.example.taskercalendarplugin.R;
 import com.example.taskercalendarplugin.util.CalendarPermissionHelper; // Added
 import com.joaomgcd.taskerpluginlibrary.config.TaskerPluginConfig; // Added for TaskerPluginConfig
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput; // Added for TaskerPluginConfig
+import com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfos; // Added for TaskerInput
 import com.example.taskercalendarplugin.tasker.model.CalendarPluginInput; // Added for TaskerPluginConfig
 import com.example.taskercalendarplugin.tasker.CalendarPluginHelper; // Added for TaskerPluginConfig
 // The LocaleIntent class previously here is now removed as its functionality
@@ -50,10 +51,10 @@ public class PluginEditActivity extends Activity implements TaskerPluginConfig<C
         return super.getIntent(); // Already present in Activity, but explicitly defined by interface
     }
 
-    @Override
-    public void setResult(int resultCode, Intent data) {
-        super.setResult(resultCode, data); // Already present in Activity
-    }
+    // @Override // Removing this override as the base Activity method is sufficient
+    // public void setResult(int resultCode, Intent data) {
+    //     super.setResult(resultCode, data);
+    // }
 
     // Note: finish() is also in the interface, but we'll handle its override when dealing with save/back
     @Override
@@ -158,7 +159,7 @@ public class PluginEditActivity extends Activity implements TaskerPluginConfig<C
              Log.w(TAG, "getInputForTasker: Unselected or unknown action type during save.");
              // Set a default or leave actionType null if that's how unconfigured should be handled
         }
-        return new TaskerInput<>(currentInput);
+        return new TaskerInput<>(currentInput, new com.joaomgcd.taskerpluginlibrary.input.TaskerInputInfos());
     }
     // --- End TaskerPluginConfig Methods ---
 
