@@ -5,7 +5,7 @@ import android.util.Log
 import com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerAction
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResult
-import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultSuccess
+import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultSucess // Corrected typo as per instruction
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultError
 import com.example.taskercalendarplugin.tasker.model.CalendarPluginInput
 import com.example.taskercalendarplugin.tasker.model.CalendarPluginOutput
@@ -43,12 +43,12 @@ class CalendarActionRunner : TaskerPluginRunnerAction<CalendarPluginInput, Calen
             if (input.regular.addEventTitle.isNullOrEmpty()) {
                  return TaskerPluginResultError(2, "Event title is empty for Add Event action.")
             }
-            // return TaskerPluginResultSuccess(CalendarPluginOutput(errorMessage = null))
+            // return TaskerPluginResultSucess(CalendarPluginOutput(errorMessage = null))
         } else if (input.regular.actionType == PluginEditActivity.ACTION_GET_EVENTS) {
             Log.d(TAG, "Simulating Get Events action.")
             // Actual call to resolverHelper.getEvents(...) would be here.
             // For now, returning success with placeholder output.
-            // return TaskerPluginResultSuccess(CalendarPluginOutput(nextEventTitle = "Sample Event (Simulated)", errorMessage = null))
+            // return TaskerPluginResultSucess(CalendarPluginOutput(nextEventTitle = "Sample Event (Simulated)", errorMessage = null))
         } else {
             Log.w(TAG, "Unknown action type: ${input.regular.actionType}")
             // return TaskerPluginResultError(3, "Unknown action type: ${input.regular.actionType}")
@@ -59,6 +59,6 @@ class CalendarActionRunner : TaskerPluginRunnerAction<CalendarPluginInput, Calen
         // Once the original CalendarResolverHelper issues are sorted, this runner
         // will need to be properly implemented.
         Log.d(TAG, "Plugin action (simulated) completed. Returning success.")
-        return TaskerPluginResultSuccess(CalendarPluginOutput(errorMessage = "Action simulated, calendar functions disabled."))
+        return TaskerPluginResultSucess(CalendarPluginOutput(errorMessage = "Action simulated, calendar functions disabled."))
     }
 }

@@ -56,4 +56,22 @@
     <string name="blurb_add_event_prefix">Add Event: </string>
     <string name="blurb_legacy_prefix">Legacy Config: </string>
 
+    <string name="label_action_type">Action Type</string>
+    <string name="label_max_events_to_get">Max Events to Get</string>
+    <string name="label_days_ahead_to_check">Days Ahead to Check</string>
+    <string name="label_event_title">Event Title</string>
+    <string name="label_event_description">Event Description</string>
+    <string name="label_event_location">Event Location</string>
+    <string name="label_start_offset_mins">Start Offset (mins)</string>
+    <string name="label_duration_mins">Duration (mins)</string>
+    <string name="label_legacy_config">Legacy Config</string>
+    <string name="label_next_event_title">Next Event Title</string>
+    <string name="label_next_event_start_time_ms">Next Event Start Time (ms)</string>
+    <string name="label_next_event_location">Next Event Location</string>
+    <string name="label_error_message">Error Message</string>
+
+    <string name="var_next_event_title_name">next_event_title</string>
+    <string name="var_next_event_start_time_name">next_event_start_time</string>
+    <string name="var_next_event_location_name">next_event_location</string>
+    <string name="var_error_message_name">error_message</string>
 </resources>
