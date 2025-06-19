@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.CalendarContract;
+import android.provider.CalendarContract.Calendars;
 import android.util.Log;
 import androidx.core.content.ContextCompat;
 
@@ -25,9 +26,9 @@ public class CalendarResolverHelper {
 
     // Projection for querying calendars
     private static final String[] CALENDAR_PROJECTION = new String[]{
-            CalendarContract.Calendars._ID,                           // 0
-            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 1
-            CalendarContract.Calendars.OWNER_ACCOUNT                  // 2
+            Calendars._ID,                           // 0
+            Calendars.CALENDAR_DISPLAY_NAME,         // 1
+            Calendars.OWNER_ACCOUNT                  // 2
     };
     private static final int CALENDAR_PROJECTION_ID_INDEX = 0;
     private static final int CALENDAR_PROJECTION_DISPLAY_NAME_INDEX = 1;
@@ -54,10 +55,10 @@ public class CalendarResolverHelper {
 
     // For getDefaultWritableCalendarId
     private static final String[] CALENDAR_WRITE_PROJECTION = new String[]{
-            CalendarContract.Calendars._ID,                           // 0
-            CalendarContract.Calendars.CALENDAR_DISPLAY_NAME,         // 1
-            CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL,         // 2
-            CalendarContract.Calendars.CAN_MODIFY_EVENTS              // 3
+            Calendars._ID,                           // 0
+            Calendars.CALENDAR_DISPLAY_NAME,         // 1
+            Calendars.CALENDAR_ACCESS_LEVEL,         // 2
+            Calendars.CAN_MODIFY_EVENTS              // 3
     };
     private static final int CALENDAR_WRITE_PROJECTION_ID_INDEX = 0;
     private static final int CALENDAR_WRITE_PROJECTION_ACCESS_LEVEL_INDEX = 2;
@@ -87,7 +88,7 @@ public class CalendarResolverHelper {
 
         Cursor cursor = null;
         try {
-            cursor = resolver.query(CalendarContract.Calendars.CONTENT_URI,
+            cursor = resolver.query(Calendars.CONTENT_URI,
                     CALENDAR_PROJECTION, null, null, null);
 
             if (cursor != null) {
@@ -330,26 +331,26 @@ public class CalendarResolverHelper {
             return -1;
         }
 
-        String selection = "(" + CalendarContract.Calendars.CALENDAR_ACCESS_LEVEL + " >= ? AND " +
-                           CalendarContract.Calendars.CAN_MODIFY_EVENTS + " = ?)";
+        String selection = "(" + Calendars.CALENDAR_ACCESS_LEVEL + " >= ? AND " +
+                           Calendars.CAN_MODIFY_EVENTS + " = ?)";
         String[] selectionArgs = new String[]{
-                String.valueOf(CalendarContract.Calendars.CAL_ACCESS_CONTRIBUTOR),
+                String.valueOf(Calendars.CAL_ACCESS_CONTRIBUTOR),
                 "1"
         };
         // Prefer primary calendars if available, then other writable ones.
-        String sortOrder = CalendarContract.Calendars.IS_PRIMARY + " DESC, " + CalendarContract.Calendars.CALENDAR_DISPLAY_NAME + " ASC";
+        String sortOrder = Calendars.IS_PRIMARY + " DESC, " + Calendars.CALENDAR_DISPLAY_NAME + " ASC";
 
 
         Cursor cursor = null;
         long calendarId = -1;
 
         try {
-            cursor = resolver.query(CalendarContract.Calendars.CONTENT_URI,
+            cursor = resolver.query(Calendars.CONTENT_URI,
                     CALENDAR_WRITE_PROJECTION, selection, selectionArgs, sortOrder);
 
             if (cursor != null && cursor.moveToFirst()) {
                 calendarId = cursor.getLong(CALENDAR_WRITE_PROJECTION_ID_INDEX);
-                String displayName = cursor.getString(cursor.getColumnIndexOrThrow(CalendarContract.Calendars.CALENDAR_DISPLAY_NAME));
+                String displayName = cursor.getString(cursor.getColumnIndexOrThrow(Calendars.CALENDAR_DISPLAY_NAME));
                 Log.d(TAG, "Found writable calendar. ID: " + calendarId + ", Name: " + displayName);
             } else {
                 Log.d(TAG, "No writable calendar found or cursor was null.");
