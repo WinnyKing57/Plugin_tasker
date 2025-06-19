@@ -9,13 +9,15 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: Plugin_tasker-main/TaskerCalendarPlugin
 
     steps:
       - name: Checkout source
         uses: actions/checkout@v4
+
+      - name: 📁 Lister tous les fichiers du dépôt
+        run: |
+          echo "🗂 Structure du dépôt :"
+          find $GITHUB_WORKSPACE
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4
@@ -44,4 +46,4 @@ jobs:
         with:
           name: debug-apk
           path: |
-            Plugin_tasker-main/TaskerCalendarPlugin/**/build/outputs/apk/debug/*.apk
+            **/build/outputs/apk/debug/*.apk
