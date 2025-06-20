@@ -36,7 +36,6 @@
 
             <!-- Combined intent-filter for Tasker + Locale -->
             <intent-filter>
-                <action android:name="net.dinglisch.android.tasker.ACTION_EDIT" />
                 <action android:name="com.twofortyfouram.locale.api.intent.action.EDIT_SETTING" />
             </intent-filter>
 
@@ -47,6 +46,7 @@
             <meta-data
                 android:name="com.twofortyfouram.locale.intent.extra.ICON"
                 android:resource="@mipmap/ic_launcher" />
+            <meta-data android:name="com.twofortyfouram.locale.intent.extra.BLURB" android:value="@string/plugin_blurb" />
         </activity>
 
         <!-- Plugin Fire BroadcastReceiver (for Actions) -->

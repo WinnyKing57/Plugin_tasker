@@ -55,6 +55,7 @@
     <string name="blurb_get_events_days_suffix"> days ahead</string>
     <string name="blurb_add_event_prefix">Add Event: </string>
     <string name="blurb_legacy_prefix">Legacy Config: </string>
+    <string name="plugin_blurb">Configures calendar events</string>
 
     <string name="label_action_type">Action Type</string>
     <string name="label_max_events_to_get">Max Events to Get</string>
