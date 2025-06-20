@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/textViewTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="WinCalendar Plugin"
+        android:textSize="24sp"
+        android:layout_marginBottom="16dp"/>
+
+    <Button
+        android:id="@+id/buttonOpenGithub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Open TaskerPluginSample GitHub"/>
+
+    <Button
+        android:id="@+id/buttonOpenPluginPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Open TaskerPluginKotlin GitHub"/>
+
+    <Button
+        android:id="@+id/buttonTestCondition"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Test Condition (Placeholder)"/>
+
+    <EditText
+        android:id="@+id/editTextData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:hint="Data for Tasker"
+        android:visibility="gone"/>
+
+    <Button
+        android:id="@+id/buttonSaveToTasker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Save to Tasker"
+        android:visibility="gone"/>
+
+</LinearLayout>

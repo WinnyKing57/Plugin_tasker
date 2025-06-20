@@ -1,0 +1,33 @@
+// build.gradle for taskerpluginlibrary
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+
+// tasks.withType(Javadoc).all { // Javadoc task might not be available by default in AGP 8+
+//     enabled = false
+// }
+
+android {
+    compileSdk 34
+    namespace 'com.joaomgcd.taskerpluginlibrary' // Standard namespace for this library
+
+    defaultConfig {
+        minSdkVersion 16 // From sample
+        consumerProguardFiles 'proguard-rules.pro'
+    }
+    buildTypes {
+        release {
+            minifyEnabled false // As per sample
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8 // Align with app module for now
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8" // Align with app module
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version" // $kotlin_version from root build.gradle
+}

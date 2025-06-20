@@ -1,0 +1,50 @@
+plugins {
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
+}
+
+android {
+    compileSdk 34
+    namespace 'com.winnyking.wincalendar' // Your chosen namespace
+    defaultConfig {
+        applicationId "com.winnyking.wincalendar" // Your chosen applicationId
+        minSdkVersion 16 // From sample
+        targetSdkVersion 34
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        debug {
+            minifyEnabled false
+            // proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro' // Proguard can be added later if needed
+        }
+        release {
+            minifyEnabled false // Keeping it simple for now, can be true with proper rules
+            // proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug // Sign release with debug key for now
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+    buildFeatures {
+        viewBinding true // From sample
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version" // $kotlin_version from root
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3' // From sample
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3' // From sample
+    implementation 'androidx.core:core-ktx:1.9.0' // Common AndroidX
+    implementation 'androidx.appcompat:appcompat:1.6.1' // Common AndroidX for Activity themes
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.5'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
+    implementation project(':taskerpluginlibrary')
+}
