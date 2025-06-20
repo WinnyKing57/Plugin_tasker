@@ -29,7 +29,9 @@
             android:name=".ui.PluginEditActivity"
             android:label="@string/calendar_plugin_action_label"
             android:icon="@mipmap/ic_launcher"
-            android:exported="true">
+            android:exported="true"
+            android:enabled="true"
+            android:taskAffinity="com.example.taskercalendarplugin.EDIT_AFFINITY">
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.api.intent.action.EDIT_SETTING" />
             </intent-filter>
