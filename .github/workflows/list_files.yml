@@ -1,0 +1,19 @@
+name: List Repository Files
+
+on:
+  push:
+    branches:
+      - main # Or specify the branch you want this to run on
+  workflow_dispatch: # Allows manual triggering
+
+jobs:
+  list_files:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository code
+        uses: actions/checkout@v4
+
+      - name: List all files and directories
+        run: |
+          echo "Listing all files and directories recursively:"
+          ls -R
