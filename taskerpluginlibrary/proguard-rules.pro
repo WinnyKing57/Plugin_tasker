@@ -1,0 +1,32 @@
+-keepattributes *Annotation*
+-keep public class com.joaomgcd.taskerpluginlibrary.output.TaskerOutputObject { *; }
+-keep public class com.joaomgcd.taskerpluginlibrary.output.TaskerOutputVariable { *; }
+-keep public class com.joaomgcd.taskerpluginlibrary.input.TaskerInputRoot { *; }
+-keep public class com.joaomgcd.taskerpluginlibrary.input.TaskerInputField { *; }
+-keep public class com.joaomgcd.taskerpluginlibrary.input.TaskerInputObject { *; }
+-keep public class com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultCondition { *; }
+-keep public class com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultConditionState { *; }
+-keep public class com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultAction { *; }
+-keep public class com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultEvent { *; }
+-keep public class com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerActionNoOutputOrInputOrUpdateState
+-keep public class com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerActionNoOutputOrInput
+-keep public class com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerActionNoOutputOrUpdateState
+-keep public class com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerActionNoOutput
+-keep public class com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerActionNoInputOrUpdateState
+-keep public class com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerActionNoInput
+-keep public class com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerActionNoUpdateState
+-keep public class com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerAction
+-keep public class com.joaomgcd.taskerpluginlibrary.condition.TaskerPluginRunnerConditionNoInputOrUpdateState
+-keep public class com.joaomgcd.taskerpluginlibrary.condition.TaskerPluginRunnerConditionNoInput
+-keep public class com.joaomgcd.taskerpluginlibrary.condition.TaskerPluginRunnerConditionNoUpdateState
+-keep public class com.joaomgcd.taskerpluginlibrary.condition.TaskerPluginRunnerCondition
+-keep public class com.joaomgcd.taskerpluginlibrary.event.TaskerPluginRunnerEventNoOutputOrInputOrUpdateState
+-keep public class com.joaomgcd.taskerpluginlibrary.event.TaskerPluginRunnerEventNoOutputOrInput
+-keep public class com.joaomgcd.taskerpluginlibrary.event.TaskerPluginRunnerEventNoOutputOrUpdateState
+-keep public class com.joaomgcd.taskerpluginlibrary.event.TaskerPluginRunnerEventNoOutput
+-keep public class com.joaomgcd.taskerpluginlibrary.event.TaskerPluginRunnerEventNoInputOrUpdateState
+-keep public class com.joaomgcd.taskerpluginlibrary.event.TaskerPluginRunnerEventNoInput
+-keep public class com.joaomgcd.taskerpluginlibrary.event.TaskerPluginRunnerEventNoUpdateState
+-keep public class com.joaomgcd.taskerpluginlibrary.event.TaskerPluginRunnerEvent
+-keep class **.R$* { *; } # Needed for reflection in some cases, like accessing resources by name
+-keep public class kotlin.Unit { *; }

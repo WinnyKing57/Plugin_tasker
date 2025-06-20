@@ -1,0 +1,42 @@
+---
+**Subject: Assistance Request: Tasker Plugin Visibility and Refactoring**
+
+**User Request:**
+
+I need assistance with my Android Tasker plugin project. The primary issue is that my plugin is not visible within the Tasker application. The goal is to make the plugin visible and then ensure it's based on a clean, functional example.
+
+**Project Repository:**
+`https://github.com/WinnyKing57/Plugin_tasker` (This is the user's repository that needs fixing)
+
+**Example Repository for Reference:**
+The user wants their plugin to be refactored/reset based on the official TaskerPluginSample by João Dias:
+`https://github.com/joaomgcd/TaskerPluginSample.git`
+
+**Key Problems Encountered & Steps Taken So Far:**
+
+1.  **Initial Invisibility:** The plugin, as originally structured by the user, was not appearing in Tasker's list of available plugins.
+2.  **Manifest Adjustments:** Initial attempts focused on correcting `AndroidManifest.xml` intent filters for the plugin's configuration activity.
+3.  **Signing Configuration:** Explored ensuring the APK was signed.
+4.  **Decision to Reset:** Due to persistent invisibility, the user requested deleting the existing plugin code and rebuilding it based directly on the `TaskerPluginSample`.
+5.  **Reset Process (Current State):**
+    *   The original plugin-specific directory (`TaskerCalendarPlugin/`) was confirmed by the user to be deleted from their remote repository.
+    *   A new structure (`app/`, `taskerpluginlibrary/`, root Gradle files) mirroring the TaskerPluginSample has been created in the user's repository by the AI agent.
+    *   The content of all files from the TaskerPluginSample's `taskerpluginlibrary` (Kotlin sources, build files, resources) has been fetched and written into the user's repository by the AI agent.
+    *   Core files for the `app` module from the sample (`build.gradle`, `AndroidManifest.xml`, `ActivityMain.kt`, icons, string resources) were also fetched and written by the AI agent.
+    *   The `applicationId` for the new `app` module has been set to `com.winnyking.wincalendar` by the AI agent.
+    *   Minimal Java "Hello World" plugin components (Activity, Runner, Input, layout) were created by the AI agent within the new `app` module structure, adapted for the `com.winnyking.wincalendar` ID.
+6.  **Current Roadblock:** Attempts by the AI agent to build this newly structured project are failing. The AI agent's build environment seems to still detect traces of the old, deleted `TaskerCalendarPlugin/` files (despite `ls()` confirming they are gone from the AI's view of the repo). This triggers safety errors ("affected too many files") in the AI's tools and prevents `gradlew clean` or `assembleDebug` from running successfully. The user has indicated they can trigger a workspace reset for the AI agent's session to resolve this.
+
+**Desired Outcome:**
+A buildable APK from the user's repository (`Plugin_tasker`) that:
+1.  Is visible as a plugin within the Tasker application.
+2.  Is based on the clean structure of `TaskerPluginSample`.
+3.  Uses the `applicationId "com.winnyking.wincalendar"`.
+4.  Once visibility is achieved, the user intends to iteratively add their specific calendar-related plugin functionality back into this clean base.
+
+**Next Action for User (or admin of AI agent's environment):**
+Confirm to the AI agent that its workspace has been fully reset to a clean clone of the latest state of the `Plugin_tasker` repository.
+
+**Next Action for AI Agent (upon confirmation of workspace reset):**
+Re-attempt to build the `com.winnyking.wincalendar` app (which is now the modified version of TaskerPluginSample in the user's repository) and then guide the user on testing its visibility in Tasker.
+---
