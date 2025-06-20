@@ -1,8 +1,0 @@
-<resources>
-    <string name="app_name">WinCalendar Plugin</string>
-    <string name="hello_world_label">Hello World Config</string>
-    <string name="hello_world_blurb">Says hello via Log/Toast!</string>
-    <string name="hello_world_input_label">Message to show</string>
-    <string name="action_output_message">Message</string>
-    <string name="action_output_message_desc">The message that was output by the action.</string>
-</resources>
