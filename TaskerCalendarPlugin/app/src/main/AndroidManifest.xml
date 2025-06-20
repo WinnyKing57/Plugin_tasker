@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:installLocation="internalOnly">
 
+    <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_CALENDAR" />
     <uses-permission android:name="android.permission.WRITE_CALENDAR" />
@@ -33,18 +34,13 @@
             android:enabled="true"
             android:taskAffinity="com.example.taskercalendarplugin.EDIT_AFFINITY">
 
+            <!-- Combined intent-filter for Tasker + Locale -->
             <intent-filter>
                 <action android:name="net.dinglisch.android.tasker.ACTION_EDIT" />
-            </intent-filter>
-            <intent-filter>
                 <action android:name="com.twofortyfouram.locale.api.intent.action.EDIT_SETTING" />
             </intent-filter>
-            <!-- Temporarily removed Condition intent filter
-            <intent-filter>
-                <action android:name="com.twofortyfouram.locale.api.intent.action.EDIT_CONDITION" />
-            </intent-filter>
-            -->
 
+            <!-- Metadata for Tasker/Locale display -->
             <meta-data
                 android:name="com.twofortyfouram.locale.intent.extra.TITLE"
                 android:resource="@string/calendar_plugin_action_label" />
@@ -53,7 +49,19 @@
                 android:resource="@mipmap/ic_launcher" />
         </activity>
 
-        <!-- Plugin Query BroadcastReceiver (for Conditions/States) - Temporarily removed
+        <!-- Plugin Fire BroadcastReceiver (for Actions) -->
+        <receiver
+            android:name="com.joaomgcd.taskerpluginlibrary.action.BroadcastReceiverAction"
+            android:exported="true"
+            android:process=":background">
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.api.intent.action.FIRE_SETTING" />
+            </intent-filter>
+        </receiver>
+
+        <!-- (OPTIONNEL) Plugin Query BroadcastReceiver (for Conditions/States) -->
+        <!-- Décommente pour permettre à ton plugin de servir de condition (état logique dans Tasker) -->
+        <!--
         <receiver
             android:name=".receiver.PluginQueryReceiver"
             android:exported="true"
@@ -64,16 +72,5 @@
         </receiver>
         -->
 
-        <!-- Plugin Fire BroadcastReceiver (for Actions/Settings) -->
-        <receiver
-            android:name="com.joaomgcd.taskerpluginlibrary.action.BroadcastReceiverAction"
-            android:exported="true"
-            android:process=":background">
-            <intent-filter>
-                <action android:name="com.twofortyfouram.locale.api.intent.action.FIRE_SETTING" />
-            </intent-filter>
-        </receiver>
-
     </application>
-
 </manifest>
