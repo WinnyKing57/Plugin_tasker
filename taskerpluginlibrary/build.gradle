@@ -1,6 +1,7 @@
 // build.gradle for taskerpluginlibrary
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-parcelize'
 
 // tasks.withType(Javadoc).all { // Javadoc task might not be available by default in AGP 8+
 //     enabled = false
