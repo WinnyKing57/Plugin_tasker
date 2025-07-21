@@ -24,11 +24,11 @@ interface TaskerPluginRunner<TInput : Any, TOutput : Any> {
     companion object {
         const val METHOD_QUERY = "query"
         fun <TInput : Any, TOutput : Any> KClass<out TaskerPluginRunner<TInput, TOutput>>.getOutputClass(): KClass<TOutput>? {
-            return superclasses.firstOrNull { superClass ->
+            return superclasses.firstOrNull { superClass: KClass<*> ->
                 superClass == TaskerPluginRunnerAction::class || superClass == TaskerPluginRunnerCondition::class
             }
                 ?.typeParameters?.getOrNull(1)
-                ?.let { typeParam -> typeParam.upperBounds.firstOrNull()?.classifier as? KClass<TOutput> }
+                ?.let { typeParam: kotlin.reflect.KTypeParameter -> typeParam.upperBounds.firstOrNull()?.classifier as? KClass<TOutput> }
         }
 
     }
