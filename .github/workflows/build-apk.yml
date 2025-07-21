@@ -38,6 +38,8 @@ jobs:
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --sdk_root=${ANDROID_HOME} "platforms;android-34" "build-tools;30.0.3"
           echo "y" | $ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager --licenses
 
+      - name: Generate gradlew wrapper
+        run: gradle wrapper
       - name: Grant execute permission to gradlew
         run: chmod +x ./gradlew
 
