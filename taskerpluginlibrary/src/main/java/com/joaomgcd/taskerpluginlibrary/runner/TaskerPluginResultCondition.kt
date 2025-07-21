@@ -36,8 +36,5 @@ sealed class TaskerPluginResultCondition : TaskerPluginResult() {
 
 @Parcelize
 data class TaskerPluginResultConditionSimple(override val state: TaskerPluginResultConditionState) : TaskerPluginResultCondition(), Parcelable {
-    override val variablesBundle = null
-}
-    override val isSuccessful: Boolean get() = super.isSuccessful
-    override val variablesBundle = null
+    override val variablesBundle: android.os.Bundle? = null
 }
