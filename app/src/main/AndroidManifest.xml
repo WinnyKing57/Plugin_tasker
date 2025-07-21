@@ -35,10 +35,10 @@
                 android:name="com.twofortyfouram.locale.intent.extra.BLURB"
                 android:value="@string/hello_world_blurb" />
         </activity>
-         <receiver
-            android:name="com.joaomgcd.taskerpluginlibrary.action.BroadcastReceiverAction"
+        <receiver
+            android:name=".tasker.action.MyTaskerActionReceiver"
             android:exported="true"
-            android:process=":background" >
+            android:process=":background">
             <intent-filter>
                 <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
             </intent-filter>
