@@ -16,7 +16,6 @@ import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import kotlinx.coroutines.runBlocking
 import kotlin.reflect.KClass
 import kotlin.reflect.full.*
-import kotlin.reflect.full.superclasses
 
 
 interface TaskerPluginRunner<TInput : Any, TOutput : Any> {
