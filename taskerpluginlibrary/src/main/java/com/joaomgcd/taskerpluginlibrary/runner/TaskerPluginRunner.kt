@@ -24,8 +24,11 @@ interface TaskerPluginRunner<TInput : Any, TOutput : Any> {
     companion object {
         const val METHOD_QUERY = "query"
         fun <TInput : Any, TOutput : Any> KClass<out TaskerPluginRunner<TInput, TOutput>>.getOutputClass(): KClass<TOutput>? {
-            return superclasses.firstOrNull { it == TaskerPluginRunnerAction::class || it == TaskerPluginRunnerCondition::class }
-                ?.typeParameters?.getOrNull(1)?.let { it.upperBounds.firstOrNull()?.classifier as? KClass<TOutput> }
+            return superclasses.firstOrNull { superClass ->
+                superClass == TaskerPluginRunnerAction::class || superClass == TaskerPluginRunnerCondition::class
+            }
+                ?.typeParameters?.getOrNull(1)
+                ?.let { typeParam -> typeParam.upperBounds.firstOrNull()?.classifier as? KClass<TOutput> }
         }
 
     }

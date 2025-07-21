@@ -39,8 +39,8 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version" // $kotlin_version from root
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.3' // From sample
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3' // From sample
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.8.0'
     implementation 'androidx.core:core-ktx:1.9.0' // Common AndroidX
     implementation 'androidx.appcompat:appcompat:1.6.1' // Common AndroidX for Activity themes
     testImplementation 'junit:junit:4.13.2'
