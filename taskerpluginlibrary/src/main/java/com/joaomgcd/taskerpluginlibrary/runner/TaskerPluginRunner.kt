@@ -15,6 +15,7 @@ import com.joaomgcd.taskerpluginlibrary.getSerialized
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import kotlinx.coroutines.runBlocking
 import kotlin.reflect.KClass
+import kotlin.reflect.full.*
 import kotlin.reflect.full.superclasses
 
 
@@ -24,11 +25,10 @@ interface TaskerPluginRunner<TInput : Any, TOutput : Any> {
     companion object {
         const val METHOD_QUERY = "query"
         fun <TInput : Any, TOutput : Any> KClass<out TaskerPluginRunner<TInput, TOutput>>.getOutputClass(): KClass<TOutput>? {
-            return superclasses.firstOrNull { superClass: KClass<*> ->
+            return supertypes.firstOrNull { superClass: Any ->
                 superClass == TaskerPluginRunnerAction::class || superClass == TaskerPluginRunnerCondition::class
             }
-                ?.typeParameters?.getOrNull(1)
-                ?.let { typeParam: kotlin.reflect.KTypeParameter -> typeParam.upperBounds.firstOrNull()?.classifier as? KClass<TOutput> }
+                ?.let { it.arguments.getOrNull(1)?.type?.classifier as? KClass<TOutput> }
         }
 
     }
