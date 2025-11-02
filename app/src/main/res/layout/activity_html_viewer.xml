@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <EditText
+        android:id="@+id/editTextHtmlContent"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:hint="@string/html_content_hint"
+        android:inputType="textMultiLine"
+        android:gravity="top"/>
+
+    <EditText
+        android:id="@+id/editTextCssContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/css_content_hint"
+        android:inputType="textMultiLine"
+        android:gravity="top"/>
+
+    <EditText
+        android:id="@+id/editTextJsContent"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/js_content_hint"
+        android:inputType="textMultiLine"
+        android:gravity="top"/>
+
+    <EditText
+        android:id="@+id/editTextTaskerVariables"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/tasker_variables_hint"/>
+
+    <Button
+        android:id="@+id/buttonSave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save_button_text"
+        android:layout_gravity="center_horizontal"/>
+
+</LinearLayout>

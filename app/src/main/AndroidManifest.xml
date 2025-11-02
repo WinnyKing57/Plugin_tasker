@@ -35,6 +35,24 @@
                 android:name="com.twofortyfouram.locale.intent.extra.BLURB"
                 android:value="@string/hello_world_blurb" />
         </activity>
+
+        <!-- HTML Viewer Plugin Components -->
+        <activity
+            android:name="com.winnyking.wincalendar.tasker.htmlviewer.HtmlViewerActivity"
+            android:exported="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/html_viewer_label_config">
+            <intent-filter>
+                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
+            </intent-filter>
+            <meta-data
+                android:name="com.twofortyfouram.locale.intent.extra.BLURB"
+                android:value="@string/html_viewer_blurb" />
+        </activity>
+        <activity
+            android:name="com.winnyking.wincalendar.tasker.htmlviewer.WebViewActivity"
+            android:exported="false" />
+
         <receiver
             android:name=".tasker.action.MyTaskerActionReceiver"
             android:exported="true"
