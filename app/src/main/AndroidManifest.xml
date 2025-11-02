@@ -22,20 +22,6 @@
             </intent-filter>
         </activity>
 
-        <!-- Hello World Plugin Components -->
-        <activity
-            android:name="com.winnyking.wincalendar.tasker.helloworld.HelloWorldActivity"
-            android:exported="true"
-            android:icon="@mipmap/ic_launcher"
-            android:label="@string/hello_world_label_config"> <!-- Changed label for clarity -->
-            <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.EDIT_SETTING" />
-            </intent-filter>
-              <meta-data
-                android:name="com.twofortyfouram.locale.intent.extra.BLURB"
-                android:value="@string/hello_world_blurb" />
-        </activity>
-
         <!-- HTML Viewer Plugin Components -->
         <activity
             android:name="com.winnyking.wincalendar.tasker.htmlviewer.HtmlViewerActivity"
@@ -53,13 +39,5 @@
             android:name="com.winnyking.wincalendar.tasker.htmlviewer.WebViewActivity"
             android:exported="false" />
 
-        <receiver
-            android:name=".tasker.action.MyTaskerActionReceiver"
-            android:exported="true"
-            android:process=":background">
-            <intent-filter>
-                <action android:name="com.twofortyfouram.locale.intent.action.FIRE_SETTING" />
-            </intent-filter>
-        </receiver>
     </application>
 </manifest>
