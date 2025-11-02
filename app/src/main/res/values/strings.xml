@@ -14,6 +14,5 @@
     <string name="html_viewer_blurb">Displays a custom HTML page.</string>
     <string name="tasker_variables_label">Tasker Variables</string>
     <string name="code_hint">Enter HTML, CSS, and JavaScript here</string>
-    <string name="output_variables_hint">Enter comma-separated output variable names</string>
     <string name="save_button_text">Save</string>
 </resources>

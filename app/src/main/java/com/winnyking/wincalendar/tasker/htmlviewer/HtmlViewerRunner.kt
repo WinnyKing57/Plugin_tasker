@@ -4,31 +4,18 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunner
+import com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerAction
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResult
-import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultError
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultSucess
-import com.joaomgcd.taskerpluginlibrary.output.TaskerOutputVariable
-import com.joaomgcd.taskerpluginlibrary.output.TaskerOutputVariables
-import org.json.JSONObject
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
-class HtmlViewerRunner : TaskerPluginRunner<HtmlViewerInput, TaskerOutputVariables>() {
-    override fun run(context: Context, input: TaskerInput<HtmlViewerInput>): TaskerPluginResult<TaskerOutputVariables> {
+class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, String>() {
+    override fun run(context: Context, input: TaskerInput<HtmlViewerInput>): TaskerPluginResult<String> {
         val viewerInput = input.regular ?: return TaskerPluginResultError(IllegalArgumentException("Input cannot be null"))
-        var html = viewerInput.htmlContent ?: viewerInput.code ?: ""
-
-        val matcher = Pattern.compile("%([a-zA-Z0-9_]+)").matcher(html)
-        while (matcher.find()) {
-            val variableName = matcher.group(1)
-            val variableValue = input.getVariableValue(variableName)
-            if (variableValue != null) {
-                html = html.replace("%$variableName", variableValue)
-            }
-        }
+        val html = viewerInput.htmlContent ?: viewerInput.code ?: ""
 
         val latch = CountDownLatch(1)
         val result = StringBuilder()
@@ -61,16 +48,6 @@ class HtmlViewerRunner : TaskerPluginRunner<HtmlViewerInput, TaskerOutputVariabl
             context.unregisterReceiver(receiver)
         }
 
-        val variables = TaskerOutputVariables()
-        try {
-            val json = JSONObject(result.toString())
-            for (key in json.keys()) {
-                variables.add(TaskerOutputVariable(key, json.getString(key), json.getString(key)))
-            }
-        } catch (e: Exception) {
-            // result is not a valid JSON, so we can't extract variables
-        }
-
-        return TaskerPluginResultSucess(variables)
+        return TaskerPluginResultSucess(result.toString())
     }
 }
