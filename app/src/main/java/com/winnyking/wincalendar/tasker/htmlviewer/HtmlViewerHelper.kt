@@ -8,6 +8,7 @@ class HtmlViewerHelper(config: TaskerPluginConfig<HtmlViewerInput>) :
     TaskerPluginConfigHelper<HtmlViewerInput, String, HtmlViewerRunner>(config) {
     override val runnerClass = HtmlViewerRunner::class.java
     override val outputClass = String::class.java
+    override val inputClass = HtmlViewerInput::class.java
 
     override fun addToStringBlurb(input: TaskerInput<HtmlViewerInput>, blurbBuilder: StringBuilder) {
         val content = input.regular.htmlContent
