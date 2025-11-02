@@ -28,7 +28,7 @@ class WebViewActivity : Activity() {
 
         binding.webView.addJavascriptInterface(WebAppInterface(this), "Android")
 
-        binding.webView.loadData(html ?: "", "text/html", "UTF-8")
+        binding.webView.loadDataWithBaseURL(null, html ?: "", "text/html", "UTF-8", null)
     }
 
     inner class WebAppInterface(private val activity: Activity) {
