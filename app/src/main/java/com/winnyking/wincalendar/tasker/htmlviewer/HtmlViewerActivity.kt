@@ -3,6 +3,7 @@ package com.winnyking.wincalendar.tasker.htmlviewer
 import android.content.Context
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.joaomgcd.taskerpluginlibrary.TaskerPlugin
 import com.joaomgcd.taskerpluginlibrary.config.TaskerPluginConfig
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.winnyking.wincalendar.databinding.ActivityHtmlViewerBinding
@@ -25,9 +26,9 @@ class HtmlViewerActivity : AppCompatActivity(), TaskerPluginConfig<HtmlViewerInp
     }
 
     override val inputForTasker: TaskerInput<HtmlViewerInput>
-        get() = TaskerInput(
-            HtmlViewerInput(
-                htmlContent = binding.editTextCode.text.toString()
-            )
-        )
+        get() {
+            val input = TaskerInput(HtmlViewerInput(htmlContent = binding.editTextCode.text.toString()))
+            TaskerPlugin.Setting.setVariableReplaceKeys(input.bundle, arrayOf("html_content"))
+            return input
+        }
 }
