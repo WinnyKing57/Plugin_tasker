@@ -7,6 +7,8 @@ import android.content.IntentFilter
 import com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerAction
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResult
+import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultError
+import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultSucess
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 
@@ -14,7 +16,7 @@ class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, String>() {
     override fun run(context: Context, input: TaskerInput<HtmlViewerInput>): TaskerPluginResult<String> {
         val viewerInput = input.regular
         if (viewerInput == null) {
-            return TaskerPluginResult.Error(Throwable("Input cannot be null"))
+            return TaskerPluginResultError(Throwable("Input cannot be null"))
         }
 
         val latch = CountDownLatch(1)
@@ -43,11 +45,11 @@ class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, String>() {
         try {
             latch.await(5, TimeUnit.MINUTES)
         } catch (e: InterruptedException) {
-            return TaskerPluginResult.Error(e)
+            return TaskerPluginResultError(e)
         } finally {
             context.unregisterReceiver(receiver)
         }
 
-        return TaskerPluginResult.Success(result.toString())
+        return TaskerPluginResultSucess(result.toString())
     }
 }
