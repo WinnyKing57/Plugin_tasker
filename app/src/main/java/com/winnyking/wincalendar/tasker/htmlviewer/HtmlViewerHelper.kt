@@ -11,7 +11,7 @@ class HtmlViewerHelper(config: TaskerPluginConfig<HtmlViewerInput>) :
     override val inputClass = HtmlViewerInput::class.java
 
     override fun addToStringBlurb(input: TaskerInput<HtmlViewerInput>, blurbBuilder: StringBuilder) {
-        val content = input.regular.htmlContent
+        val content = input.regular.htmlContent ?: input.regular.code
         if (!content.isNullOrEmpty()) {
             blurbBuilder.append("Displaying custom HTML")
         } else {

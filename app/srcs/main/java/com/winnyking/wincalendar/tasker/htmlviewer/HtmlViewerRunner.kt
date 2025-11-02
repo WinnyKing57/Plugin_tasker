@@ -11,12 +11,10 @@ import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultError
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultSucess
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
-import java.util.regex.Pattern
 
 class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, String>() {
     override fun run(context: Context, input: TaskerInput<HtmlViewerInput>): TaskerPluginResult<String> {
-        val viewerInput = input.regular ?: return TaskerPluginResultError(IllegalArgumentException("Input cannot be null"))
-        val html = viewerInput.htmlContent ?: viewerInput.code ?: ""
+        val viewerInput = input.regular ?: throw IllegalArgumentException("Input cannot be null")
 
         val latch = CountDownLatch(1)
         val result = StringBuilder()
@@ -33,18 +31,19 @@ class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, String>() {
 
         val intent = Intent(context, WebViewActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            putExtra("html", html)
+            putExtra("code", viewerInput.code)
+            putExtra("tasker_variables", viewerInput.taskerVariables)
         }
 
         context.startActivity(intent)
 
         try {
             if (!latch.await(5, TimeUnit.MINUTES)) {
-                // Handle timeout
+                // Handle timeout if necessary
             }
         } catch (e: InterruptedException) {
             Thread.currentThread().interrupt()
-            return TaskerPluginResultError(e)
+            throw RuntimeException("Thread was interrupted", e)
         } finally {
             context.unregisterReceiver(receiver)
         }
