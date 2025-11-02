@@ -21,15 +21,15 @@ class HtmlViewerActivity : AppCompatActivity(), TaskerPluginConfig<HtmlViewerInp
     }
 
     override fun assignFromInput(input: TaskerInput<HtmlViewerInput>) = input.regular.run {
-        binding.editTextCode.setText(code)
-        binding.editTextTaskerVariables.setText(taskerVariables)
+        binding.editTextCode.setText(htmlContent ?: code)
+        binding.editTextOutputVariables.setText(outputVariables)
     }
 
     override val inputForTasker: TaskerInput<HtmlViewerInput>
         get() = TaskerInput(
             HtmlViewerInput(
-                binding.editTextCode.text.toString(),
-                binding.editTextTaskerVariables.text.toString()
+                htmlContent = binding.editTextCode.text.toString(),
+                outputVariables = binding.editTextOutputVariables.text.toString()
             )
         )
 }

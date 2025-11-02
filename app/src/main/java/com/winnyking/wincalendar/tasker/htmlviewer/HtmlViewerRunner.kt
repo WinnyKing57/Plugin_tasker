@@ -4,25 +4,29 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
-import com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerAction
+import com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunner
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResult
+import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultError
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultSucess
+import com.joaomgcd.taskerpluginlibrary.output.TaskerOutputVariable
+import com.joaomgcd.taskerpluginlibrary.output.TaskerOutputVariables
+import org.json.JSONObject
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
-class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, String>() {
-    override fun run(context: Context, input: TaskerInput<HtmlViewerInput>): TaskerPluginResult<String> {
-        val viewerInput = input.regular ?: throw IllegalArgumentException("Input cannot be null")
-        var code = viewerInput.code ?: ""
+class HtmlViewerRunner : TaskerPluginRunner<HtmlViewerInput, TaskerOutputVariables>() {
+    override fun run(context: Context, input: TaskerInput<HtmlViewerInput>): TaskerPluginResult<TaskerOutputVariables> {
+        val viewerInput = input.regular ?: return TaskerPluginResultError(IllegalArgumentException("Input cannot be null"))
+        var html = viewerInput.htmlContent ?: viewerInput.code ?: ""
 
-        val matcher = Pattern.compile("%([a-zA-Z0-9_]+)").matcher(code)
+        val matcher = Pattern.compile("%([a-zA-Z0-9_]+)").matcher(html)
         while (matcher.find()) {
             val variableName = matcher.group(1)
             val variableValue = input.getVariableValue(variableName)
             if (variableValue != null) {
-                code = code.replace("%$variableName", variableValue)
+                html = html.replace("%$variableName", variableValue)
             }
         }
 
@@ -41,23 +45,32 @@ class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, String>() {
 
         val intent = Intent(context, WebViewActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            putExtra("code", code)
-            putExtra("tasker_variables", viewerInput.taskerVariables)
+            putExtra("html", html)
         }
 
         context.startActivity(intent)
 
         try {
             if (!latch.await(5, TimeUnit.MINUTES)) {
-                // Handle timeout if necessary
+                // Handle timeout
             }
         } catch (e: InterruptedException) {
             Thread.currentThread().interrupt()
-            throw RuntimeException("Thread was interrupted", e)
+            return TaskerPluginResultError(e)
         } finally {
             context.unregisterReceiver(receiver)
         }
 
-        return TaskerPluginResultSucess(result.toString())
+        val variables = TaskerOutputVariables()
+        try {
+            val json = JSONObject(result.toString())
+            for (key in json.keys()) {
+                variables.add(TaskerOutputVariable(key, json.getString(key), json.getString(key)))
+            }
+        } catch (e: Exception) {
+            // result is not a valid JSON, so we can't extract variables
+        }
+
+        return TaskerPluginResultSucess(variables)
     }
 }

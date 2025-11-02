@@ -15,10 +15,10 @@
         android:gravity="top"/>
 
     <EditText
-        android:id="@+id/editTextTaskerVariables"
+        android:id="@+id/editTextOutputVariables"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/tasker_variables_hint"/>
+        android:hint="@string/output_variables_hint"/>
 
     <Button
         android:id="@+id/buttonSave"

@@ -24,11 +24,11 @@ class WebViewActivity : Activity() {
         binding.webView.settings.javaScriptEnabled = true
         binding.webView.webViewClient = WebViewClient()
 
-        val code = intent.getStringExtra("code")
+        val html = intent.getStringExtra("html")
 
         binding.webView.addJavascriptInterface(WebAppInterface(this), "Android")
 
-        binding.webView.loadData(code ?: "", "text/html", "UTF-8")
+        binding.webView.loadData(html ?: "", "text/html", "UTF-8")
     }
 
     inner class WebAppInterface(private val activity: Activity) {
