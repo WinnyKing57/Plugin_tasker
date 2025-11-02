@@ -14,4 +14,3 @@ dependencyResolutionManagement {
 }
 rootProject.name = "WinnyKingPlugin" // Or a generic name if preferred
 include ':app'
-include ':taskerpluginlibrary'
