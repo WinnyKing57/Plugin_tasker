@@ -10,21 +10,10 @@ import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResult
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultSucess
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
-import java.util.regex.Pattern
 
 class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, String>() {
     override fun run(context: Context, input: TaskerInput<HtmlViewerInput>): TaskerPluginResult<String> {
         val viewerInput = input.regular ?: throw IllegalArgumentException("Input cannot be null")
-        var code = viewerInput.code ?: ""
-
-        val matcher = Pattern.compile("%([a-zA-Z0-9_]+)").matcher(code)
-        while (matcher.find()) {
-            val variableName = matcher.group(1)
-            val variableValue = input.getVariableValue(variableName)
-            if (variableValue != null) {
-                code = code.replace("%$variableName", variableValue)
-            }
-        }
 
         val latch = CountDownLatch(1)
         val result = StringBuilder()
@@ -41,7 +30,7 @@ class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, String>() {
 
         val intent = Intent(context, WebViewActivity::class.java).apply {
             addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            putExtra("code", code)
+            putExtra("code", viewerInput.code)
             putExtra("tasker_variables", viewerInput.taskerVariables)
         }
 

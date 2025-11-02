@@ -1,5 +1,6 @@
 package com.winnyking.wincalendar.tasker.htmlviewer
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
@@ -16,19 +17,22 @@ class WebViewActivity : Activity() {
 
     private lateinit var binding: ActivityWebViewBinding
 
+    @SuppressLint("SetJavaScriptEnabled")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityWebViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         binding.webView.settings.javaScriptEnabled = true
+        binding.webView.settings.domStorageEnabled = true
+        binding.webView.settings.databaseEnabled = true
         binding.webView.webViewClient = WebViewClient()
 
         val code = intent.getStringExtra("code")
 
         binding.webView.addJavascriptInterface(WebAppInterface(this), "Android")
 
-        binding.webView.loadData(code ?: "", "text/html", "UTF-8")
+        binding.webView.loadDataWithBaseURL(null, code ?: "", "text/html", "UTF-8", null)
     }
 
     inner class WebAppInterface(private val activity: Activity) {

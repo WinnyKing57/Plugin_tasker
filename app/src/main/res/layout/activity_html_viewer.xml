@@ -6,27 +6,11 @@
     android:padding="16dp">
 
     <EditText
-        android:id="@+id/editTextHtmlContent"
+        android:id="@+id/editTextCode"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:hint="@string/html_content_hint"
-        android:inputType="textMultiLine"
-        android:gravity="top"/>
-
-    <EditText
-        android:id="@+id/editTextCssContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/css_content_hint"
-        android:inputType="textMultiLine"
-        android:gravity="top"/>
-
-    <EditText
-        android:id="@+id/editTextJsContent"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="@string/js_content_hint"
+        android:hint="@string/code_hint"
         android:inputType="textMultiLine"
         android:gravity="top"/>
 
