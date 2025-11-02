@@ -4,7 +4,7 @@ import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import org.json.JSONObject
 
 object TaskerVariables {
-    fun <T> getVariableValue(input: TaskerInput<T>, variableName: String): String? {
+    fun <T : Any> getVariableValue(input: TaskerInput<T>, variableName: String): String? {
         val viewerInput = input.regular as? HtmlViewerInput ?: return null
         val taskerVariables = viewerInput.taskerVariables ?: return null
 
