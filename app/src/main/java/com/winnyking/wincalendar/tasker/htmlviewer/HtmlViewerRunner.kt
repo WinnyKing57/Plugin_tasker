@@ -53,13 +53,16 @@ class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, HtmlViewerOut
         }
 
         try {
+            if (result.toString().isEmpty()) {
+                return TaskerPluginResultSucess(HtmlViewerOutput(errorMessageValue = "No data returned from WebView."))
+            }
             val json = JSONObject(result.toString())
             val buttonClicked = json.optString("button_clicked", null)
-            return TaskerPluginResultSucess(HtmlViewerOutput(buttonClicked = buttonClicked))
+            return TaskerPluginResultSucess(HtmlViewerOutput(buttonValue = buttonClicked))
         } catch (e: Exception) {
             val output = HtmlViewerOutput(
-                errorCode = 1,
-                errorMessage = "Error parsing JSON from WebView: ${e.message}"
+                errorCodeValue = 1,
+                errorMessageValue = "Error parsing JSON from WebView: ${e.message}"
             )
             return TaskerPluginResultSucess(output)
         }
