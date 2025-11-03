@@ -19,6 +19,7 @@ class WebViewActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("WebViewActivity", "onCreate")
         binding = ActivityWebViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -30,6 +31,17 @@ class WebViewActivity : Activity() {
         binding.webView.addJavascriptInterface(WebAppInterface(this), "Android")
 
         binding.webView.loadDataWithBaseURL(null, html ?: "", "text/html", "UTF-8", null)
+    }
+
+    override fun onBackPressed() {
+        Log.d("WebViewActivity", "onBackPressed")
+        WebAppInterface(this).closeWebView("")
+        super.onBackPressed()
+    }
+
+    override fun onDestroy() {
+        Log.d("WebViewActivity", "onDestroy")
+        super.onDestroy()
     }
 
     /**
@@ -46,7 +58,6 @@ class WebViewActivity : Activity() {
     inner class WebAppInterface(private val activity: Activity) {
         @JavascriptInterface
         fun closeWebView(values: String) {
-            Log.d("WebViewActivity", "closeWebView called with values: $values")
             val intent = Intent(ACTION_FINISH).apply {
                 putExtra(EXTRA_VARIABLE_VALUES, values)
                 setPackage(activity.packageName)
