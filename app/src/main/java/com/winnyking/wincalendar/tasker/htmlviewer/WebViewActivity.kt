@@ -1,14 +1,13 @@
 package com.winnyking.wincalendar.tasker.htmlviewer
 
-import android.app.Activity
+import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebViewClient
 import com.winnyking.wincalendar.databinding.ActivityWebViewBinding
 
-class WebViewActivity : Activity() {
+class WebViewActivity : AppCompatActivity() {
 
     companion object {
         const val ACTION_FINISH = "com.winnyking.wincalendar.action.FINISH"
@@ -19,7 +18,6 @@ class WebViewActivity : Activity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d("WebViewActivity", "onCreate")
         binding = ActivityWebViewBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
@@ -34,13 +32,11 @@ class WebViewActivity : Activity() {
     }
 
     override fun onBackPressed() {
-        Log.d("WebViewActivity", "onBackPressed")
         WebAppInterface(this).closeWebView("")
         super.onBackPressed()
     }
 
     override fun onDestroy() {
-        Log.d("WebViewActivity", "onDestroy")
         super.onDestroy()
     }
 
@@ -55,7 +51,7 @@ class WebViewActivity : Activity() {
      * In this example, clicking the button will close the WebView and return the string 'valeur 1' to Tasker.
      * You can then use this value in your Tasker task.
      */
-    inner class WebAppInterface(private val activity: Activity) {
+    inner class WebAppInterface(private val activity: AppCompatActivity) {
         @JavascriptInterface
         fun closeWebView(values: String) {
             val intent = Intent(ACTION_FINISH).apply {
