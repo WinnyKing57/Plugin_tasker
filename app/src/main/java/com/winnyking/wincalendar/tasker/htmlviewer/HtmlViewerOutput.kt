@@ -5,10 +5,10 @@ import com.joaomgcd.taskerpluginlibrary.output.TaskerOutputVariable
 
 @TaskerOutputRoot
 class HtmlViewerOutput(
-    @TaskerOutputVariable("button_clicked", "Button Clicked", "The value of the button that was clicked in the HTML page.")
+    @field:TaskerOutputVariable("button_clicked")
     var buttonClicked: String? = null,
-    @TaskerOutputVariable("error_code", "Error Code", "An error code if something went wrong.")
+    @field:TaskerOutputVariable("error_code")
     var errorCode: Int? = null,
-    @TaskerOutputVariable("error_message", "Error Message", "An error message if something went wrong.")
+    @field:TaskerOutputVariable("error_message")
     var errorMessage: String? = null
 )
