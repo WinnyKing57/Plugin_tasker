@@ -1,9 +1,7 @@
 package com.winnyking.wincalendar.tasker.htmlviewer
 
-import com.joaomgcd.taskerpluginlibrary.output.TaskerOutputRoot
 import com.joaomgcd.taskerpluginlibrary.output.TaskerOutputVariable
 
-@TaskerOutputRoot
 class HtmlViewerOutput(
     private val buttonValue: String? = null,
     private val errorCodeValue: Int? = null,
