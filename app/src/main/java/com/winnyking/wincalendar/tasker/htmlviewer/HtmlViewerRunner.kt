@@ -23,7 +23,10 @@ class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, String>() {
         val receiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context, intent: Intent) {
                 if (WebViewActivity.ACTION_FINISH == intent.action) {
-                    result.append(intent.getStringExtra(WebViewActivity.EXTRA_VARIABLE_VALUES))
+                    val returnedValue = intent.getStringExtra(WebViewActivity.EXTRA_VARIABLE_VALUES)
+                    if (returnedValue != null) {
+                        result.append(returnedValue)
+                    }
                     latch.countDown()
                 }
             }

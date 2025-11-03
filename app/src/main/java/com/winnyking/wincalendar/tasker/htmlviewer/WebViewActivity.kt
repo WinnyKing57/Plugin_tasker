@@ -31,6 +31,17 @@ class WebViewActivity : Activity() {
         binding.webView.loadDataWithBaseURL(null, html ?: "", "text/html", "UTF-8", null)
     }
 
+    /**
+     * This interface is exposed to the WebView and allows JavaScript code to interact with the Android app.
+     * To return a value to Tasker, you can call the `closeWebView` method from your HTML's JavaScript.
+     *
+     * Example:
+     * ```html
+     * <button onclick="Android.closeWebView('valeur 1')">Close and Save</button>
+     * ```
+     * In this example, clicking the button will close the WebView and return the string 'valeur 1' to Tasker.
+     * You can then use this value in your Tasker task.
+     */
     inner class WebAppInterface(private val activity: Activity) {
         @JavascriptInterface
         fun closeWebView(values: String) {

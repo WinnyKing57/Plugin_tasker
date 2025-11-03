@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tasker HTML Example</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+        button {
+            padding: 15px 30px;
+            font-size: 18px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>HTML Button Example</h1>
+    <p>Click a button to send a value to Tasker.</p>
+
+    <button onclick="Android.closeWebView('Button 1 Clicked')">Button 1</button>
+    <button onclick="Android.closeWebView('Button 2 Clicked')">Button 2</button>
+    <button onclick="Android.closeWebView('Button 3 Clicked')">Button 3</button>
+
+</body>
+</html>
