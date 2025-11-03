@@ -19,15 +19,23 @@
             margin: 10px;
         }
     </style>
+    <script>
+        function sendToTasker(buttonValue) {
+            const data = {
+                button_clicked: buttonValue
+            };
+            Android.closeWebView(JSON.stringify(data));
+        }
+    </script>
 </head>
 <body>
 
     <h1>HTML Button Example</h1>
     <p>Click a button to send a value to Tasker.</p>
 
-    <button onclick="Android.closeWebView('Button 1 Clicked')">Button 1</button>
-    <button onclick="Android.closeWebView('Button 2 Clicked')">Button 2</button>
-    <button onclick="Android.closeWebView('Button 3 Clicked')">Button 3</button>
+    <button onclick="sendToTasker('Button 1 Clicked')">Button 1</button>
+    <button onclick="sendToTasker('Button 2 Clicked')">Button 2</button>
+    <button onclick="sendToTasker('Button 3 Clicked')">Button 3</button>
 
 </body>
 </html>

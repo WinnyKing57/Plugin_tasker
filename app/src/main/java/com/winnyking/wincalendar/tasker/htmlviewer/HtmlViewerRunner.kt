@@ -8,12 +8,13 @@ import com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerAction
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResult
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResultSucess
+import org.json.JSONObject
 import java.util.concurrent.CountDownLatch
 import java.util.concurrent.TimeUnit
 import java.util.regex.Pattern
 
-class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, String>() {
-    override fun run(context: Context, input: TaskerInput<HtmlViewerInput>): TaskerPluginResult<String> {
+class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, HtmlViewerOutput>() {
+    override fun run(context: Context, input: TaskerInput<HtmlViewerInput>): TaskerPluginResult<HtmlViewerOutput> {
         val viewerInput = input.regular ?: throw IllegalArgumentException("Input cannot be null")
         val html = viewerInput.htmlContent ?: viewerInput.code ?: ""
 
@@ -51,6 +52,16 @@ class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, String>() {
             context.unregisterReceiver(receiver)
         }
 
-        return TaskerPluginResultSucess(result.toString())
+        try {
+            val json = JSONObject(result.toString())
+            val buttonClicked = json.optString("button_clicked", null)
+            return TaskerPluginResultSucess(HtmlViewerOutput(buttonClicked = buttonClicked))
+        } catch (e: Exception) {
+            val output = HtmlViewerOutput(
+                errorCode = 1,
+                errorMessage = "Error parsing JSON from WebView: ${e.message}"
+            )
+            return TaskerPluginResultSucess(output)
+        }
     }
 }
