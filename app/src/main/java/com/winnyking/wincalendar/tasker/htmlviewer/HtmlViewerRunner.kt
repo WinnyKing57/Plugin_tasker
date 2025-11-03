@@ -4,6 +4,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.util.Log
 import com.joaomgcd.taskerpluginlibrary.action.TaskerPluginRunnerAction
 import com.joaomgcd.taskerpluginlibrary.input.TaskerInput
 import com.joaomgcd.taskerpluginlibrary.runner.TaskerPluginResult
@@ -24,6 +25,7 @@ class HtmlViewerRunner : TaskerPluginRunnerAction<HtmlViewerInput, String>() {
             override fun onReceive(context: Context, intent: Intent) {
                 if (WebViewActivity.ACTION_FINISH == intent.action) {
                     val returnedValue = intent.getStringExtra(WebViewActivity.EXTRA_VARIABLE_VALUES)
+                    Log.d("HtmlViewerRunner", "Received broadcast with value: $returnedValue")
                     if (returnedValue != null) {
                         result.append(returnedValue)
                     }

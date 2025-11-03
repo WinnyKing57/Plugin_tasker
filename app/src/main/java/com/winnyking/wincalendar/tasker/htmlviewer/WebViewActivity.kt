@@ -3,6 +3,7 @@ package com.winnyking.wincalendar.tasker.htmlviewer
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.webkit.JavascriptInterface
 import android.webkit.WebViewClient
 import com.winnyking.wincalendar.databinding.ActivityWebViewBinding
@@ -45,8 +46,10 @@ class WebViewActivity : Activity() {
     inner class WebAppInterface(private val activity: Activity) {
         @JavascriptInterface
         fun closeWebView(values: String) {
+            Log.d("WebViewActivity", "closeWebView called with values: $values")
             val intent = Intent(ACTION_FINISH).apply {
                 putExtra(EXTRA_VARIABLE_VALUES, values)
+                setPackage(activity.packageName)
             }
             sendBroadcast(intent)
             activity.finish()
